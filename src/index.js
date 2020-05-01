@@ -3,10 +3,29 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux'
+import { loadInfo, saveInfo } from './modules/localStorage'
+import configureStore from './modules/store'
+import throttle from 'lodash/throttle'
+import { defaultState } from './app/reducers'
+
+const persistedState = {
+  app: {
+    ...defaultState,
+    ...loadInfo()
+  }
+}
+const store = configureStore(persistedState)
+
+store.subscribe(throttle(() => {
+  saveInfo(store.getState())
+}, 1000))
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
