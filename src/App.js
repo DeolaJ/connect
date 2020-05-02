@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import Layout from './components/layout'
 
-class App extends Component {
+const App = () => {
   
   // componentDidMount () {
   //   fetch("/.netlify/functions/upload")
@@ -15,14 +15,11 @@ class App extends Component {
   //   })
   // }
 
-  render () {
-
-    return (
-      <div>
-        <Layout />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <Layout />
+    </div>
+  )
 }
 
 export default App;

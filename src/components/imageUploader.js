@@ -7,7 +7,7 @@ import "semantic-ui-css/components/progress.min.css";
 class ImageUploader extends Component {
   static propTypes = {
     doUploadImage: PropTypes.func.isRequired,
-    errorMessage: PropTypes.bool,
+    errorMessage: PropTypes.string,
     progressValue: PropTypes.number,
     doSetImage: PropTypes.func.isRequired
   }

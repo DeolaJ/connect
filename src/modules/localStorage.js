@@ -13,7 +13,12 @@ export const loadInfo = () => {
 export const saveInfo = (state) => {
     try {
         const serializedState = JSON.stringify({
-            imageUrl: state.app.imageUrl
+            imageUrl: state.app.imageUrl,
+            previewMode: state.app.previewMode,
+            previewText: state.app.previewText,
+            previewBoldText: state.app.previewBoldText,
+            previewBackground: state.app.previewBackground,
+            selectedPreview: state.app.selectedPreview
         })
         localStorage.setItem("userInfo", serializedState)
     } catch (err) {
