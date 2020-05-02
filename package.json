@@ -38,7 +38,8 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": ["react-app", "plugin:jsx-a11y/recommended"],
+    "plugins": ["jsx-a11y"]
   },
   "browserslist": {
     "production": [
@@ -53,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "netlify-lambda": "^1.6.3"
   }
 }

@@ -1,32 +1,122 @@
 import React, { Component } from 'react'
-import { Grid } from 'semantic-ui-react';
+import { Grid, Container } from 'semantic-ui-react';
+import "semantic-ui-css/components/container.min.css";
 import ImageUploader from './imageUploader'
+import BoldSelect from './boldselect'
+import TextSelect from './textselect'
+import BackgroundSelect from './backgroundselect'
+import PreviewContainer from './previewcontainer'
+import ControlSection from './controlsection'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import appActions from '../app/actions'
+import isEqual from 'lodash/isEqual'
 
 class Main extends Component {
   static propTypes = {
     doUploadImage: PropTypes.func.isRequired,
-    errorMessage: PropTypes.bool,
+    errorMessage: PropTypes.string,
     progressValue: PropTypes.number,
-    doSetImage: PropTypes.func.isRequired
+    doSetImage: PropTypes.func.isRequired,
+    doSetPreviewText: PropTypes.func.isRequired,
+    doSetPreviewBoldText: PropTypes.func.isRequired,
+    doSetPreviewBackground: PropTypes.func.isRequired,
+    doSetActivePreview: PropTypes.func.isRequired,
+    doSetPreviewMode: PropTypes.func.isRequired,
+    doShareImage: PropTypes.func.isRequired,
+    doResetChanges: PropTypes.func.isRequired,
+    doDownloadImage: PropTypes.func.isRequired,
+    imageUrl: PropTypes.string,
+    previewText: PropTypes.string,
+    previewBoldText: PropTypes.string,
+    previewBackground: PropTypes.string
   }
 
   render () {
-    const { doUploadImage, errorMessage, progressValue, doSetImage } = this.props
+    const { doUploadImage, errorMessage, progressValue, doSetImage, 
+      doSetPreviewBoldText, doSetPreviewText, doSetPreviewBackground,
+      imageUrl, previewText, previewBoldText, previewBackground,
+      doSetActivePreview, previewMode, selectedPreview, doSetPreviewMode,
+      doResetChanges, doDownloadImage, doShareImage, reset
+    } = this.props
 
     return (
-      <Grid stackable className={"app-container"}>
-        <Grid.Column width={16}>
-          <ImageUploader 
-            doUploadImage={doUploadImage}
-            errorMessage={errorMessage}
-            progressValue={progressValue}
-            doSetImage={doSetImage}
-          />
-        </Grid.Column>
+      <Grid stackable columns={2} className={"app-container"}>
+        {
+          !reset &&
+          <>
+            <Grid.Column width={16} style={{ display: previewMode ? "none": "" }}>
+              <Container>
+                <img src="" alt="header logo" className={"header-logo"} />
+                <br/>
+                <h1 className={"header-title"}>
+                  <q>
+                    We'll be better &amp; Stronger
+                  </q>
+                </h1>
+              </Container>
+            </Grid.Column>
+
+            <Grid.Row stretched style={{ display: previewMode ? "none": "" }}>
+              <Grid.Column width={6}>
+                <BoldSelect 
+                  doSetPreviewBoldText={doSetPreviewBoldText}
+                />
+                <TextSelect 
+                  doSetPreviewText={doSetPreviewText}
+                />
+                <ImageUploader 
+                  doUploadImage={doUploadImage}
+                  errorMessage={errorMessage}
+                  progressValue={progressValue}
+                  doSetImage={doSetImage}
+                />
+                <BackgroundSelect
+                  doSetPreviewBackground={doSetPreviewBackground}
+                />
+              </Grid.Column>
+
+              <Grid.Column width={10}>
+                <PreviewContainer 
+                  imageUrl={imageUrl}
+                  previewText={previewText}
+                  previewBoldText={previewBoldText}
+                  previewBackground={previewBackground}
+                  previewMode={previewMode}
+                  doSetActivePreview={doSetActivePreview}
+                  selectedPreview={selectedPreview}
+                />
+              </Grid.Column>
+            </Grid.Row>
+
+            {
+              previewMode &&
+
+              <Grid.Column width={16}>
+                <PreviewContainer 
+                  imageUrl={imageUrl}
+                  previewText={previewText}
+                  previewBoldText={previewBoldText}
+                  previewBackground={previewBackground}
+                  previewMode={previewMode}
+                  doSetActivePreview={doSetActivePreview}
+                  selectedPreview={selectedPreview}
+                />
+              </Grid.Column>
+            }
+
+            <Grid.Column width={16}>
+              <ControlSection
+                doSetPreviewMode={doSetPreviewMode}
+                previewMode={previewMode}
+                doShareImage={doShareImage}
+                doDownloadImage={doDownloadImage}
+                doResetChanges={doResetChanges}
+              />
+            </Grid.Column>
+          </>
+        }
       </Grid>
     )
   }
@@ -34,9 +124,15 @@ class Main extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    reset: state.app.reset,
     imageUrl: state.app.imageUrl,
     errorMessage: state.app.errorMessage,
-    progressValue: state.app.progressValue
+    progressValue: state.app.progressValue,
+    previewText: state.app.previewText,
+    previewBoldText: state.app.previewBoldText,
+    previewBackground: state.app.previewBackground,
+    previewMode: state.app.previewMode,
+    selectedPreview: state.app.selectedPreview
   }
 }
 
@@ -47,6 +143,30 @@ const mapDispatchToProps = (dispatch) => {
     },
     doSetImage (imageUrl) {
       dispatch(appActions.doSetImage(imageUrl))
+    },
+    doSetPreviewText (previewText) {
+      dispatch(appActions.doSetPreviewText(previewText))
+    },
+    doSetPreviewBoldText (previewBoldText) {
+      dispatch(appActions.doSetPreviewBoldText(previewBoldText))
+    },
+    doSetPreviewBackground (previewBackground) {
+      dispatch(appActions.doSetPreviewBackground(previewBackground))
+    },
+    doSetActivePreview (selectedPreview) {
+      dispatch(appActions.doSetActivePreview(selectedPreview))
+    },
+    doSetPreviewMode (previewMode) {
+      dispatch(appActions.doSetPreviewMode(previewMode))
+    },
+    doResetChanges () {
+      dispatch(appActions.doResetChanges())
+    },
+    doShareImage () {
+      dispatch(appActions.doShareImage())
+    },
+    doDownloadImage (imageUrl) {
+      dispatch(appActions.doDownloadImage(imageUrl))
     }
   }
 }
