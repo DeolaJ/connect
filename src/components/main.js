@@ -9,9 +9,7 @@ import PreviewContainer from './previewcontainer'
 import ControlSection from './controlsection'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import appActions from '../app/actions'
-import isEqual from 'lodash/isEqual'
 
 class Main extends Component {
   static propTypes = {
