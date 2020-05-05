@@ -1,37 +1,46 @@
-.drop-area {
-  padding: 4rem 2rem;
-  border: 2px dashed #ccc;
-  border-radius: 20px;
+.uploader-container {
+  margin: 1.5rem 0;
 
-  &.highlight {
-    border-color: purple;
+  p {
+    margin: 0;    
+    margin-top: .2rem;
+    color: rgba(255, 255, 255, .8);
   }
-}
 
-#gallery {
-  margin-top: 10px;
-}
+  .file-upload-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 
-#gallery img {
-  width: 150px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  vertical-align: middle;
-}
+    + label {
+      display: inline-block;
+      text-transform: uppercase;
+      padding: .8rem 1rem;
+    }
+  
+    &:focus + label,
+    + label:hover {
+      background-color: rgba(122, 12, 6, .9);
+    }
 
-.button {
-  display: inline-block;
-  padding: 10px;
-  background: #ccc;
-  cursor: pointer;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
+    + label {
+      cursor: pointer; /* "hand" cursor */
+    }
 
-.button:hover {
-  background: #ddd;
-}
+    &:focus + label {
+      outline: 1px dotted #000;
+      outline: -webkit-focus-ring-color auto 5px;
+    }
 
-#fileElem {
-  display: none;
+    + label * {
+      pointer-events: none;
+    }
+  }
+
+  #upload-label {
+    margin-bottom: 0;
+  }
 }

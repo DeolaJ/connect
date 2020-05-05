@@ -1,10 +1,27 @@
+@font-face {
+  font-family: 'Edo' ;
+  src: url('./fonts/edo.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat-Light' ;
+  src: url('./fonts/Montserrat-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat-Medium' ;
+  src: url('./fonts/Montserrat-Medium.ttf') format('truetype');
+}
+
 html,
 body {
   height: 100%;
 }
+
 html {
   font-size: 14px;
 }
+
 body {
   margin: 0px;
   padding: 0px;
@@ -15,7 +32,18 @@ body {
   line-height: 1.4285em;
   color: rgba(0, 0, 0, 0.87);
   font-smoothing: antialiased;
+  font-family: "Montserrat-Light", sans-serif;
 }
+
 body * {
   box-sizing: border-box;
+}
+
+.bold {
+  font-family: "Montserrat-Medium", sans-serif;
+}
+
+#root {
+  background: linear-gradient(184deg, rgba(0,0,58,1) 0%, rgba(3,28,77,1) 50%, rgba(205,111,102,1) 100%);
+  /* background-color: linear-gradient(to bottom, #00003a, #031c4d, #cd6f66, #c7a682) */
 }

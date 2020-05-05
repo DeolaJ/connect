@@ -12,92 +12,54 @@ class ImageUploader extends Component {
     doSetImage: PropTypes.func.isRequired
   }
 
-  componentDidMount () {
-    this.dropArea = document.querySelector(".drop-area");
-
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-      this.dropArea.addEventListener(eventName, this.preventDefaults, false)
-    })
-
-    ;['dragenter', 'dragover'].forEach(eventName => {
-      this.dropArea.addEventListener(eventName, this.highlight, false)
-    })
-    
-    ;['dragleave', 'drop'].forEach(eventName => {
-      this.dropArea.addEventListener(eventName, this.unhighlight, false)
-    })
-
-    this.dropArea.addEventListener('drop', this.handleDrop)
-  }
-
-  preventDefaults = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-  }
-  
-  highlight = (e) => {
-    this.dropArea.classList.add('highlight')
-  }
-  
-  unhighlight = (e) => {
-    this.dropArea.classList.remove('highlight')
+  state = {
+    filename: null
   }
 
   previewFile = (file) => {
+    const base = this
     const { doSetImage } = this.props
-    const gallery = document.getElementById('gallery');
     let reader = new FileReader()
     reader.readAsDataURL(file)
-    reader.onloadend = function() {
-      let img = document.createElement('img')
-      img.src = reader.result
-      gallery.appendChild(img)
+    reader.onloadend = function () {
       doSetImage(reader.result)
+      base.setState({
+        filename: file.name
+      })
     }
   }
 
   handleFiles = (file) => {
-    const { doUploadImage } = this.props
-
-    // doUploadImage(file)
     this.previewFile(file)
-  }
-
-  handleDrop = (e) => {
-    let dt = e.dataTransfer
-
-    // Uploading one file
-    let file = dt.files[0]
-    this.handleFiles(file)
   }
 
   render () {
     const { errorMessage, progressValue } = this.props
+    const { filename } = this.state
 
     return (
       <div className={"uploader-container"}>
-        <div className={"drop-area"}>
-          {
-            errorMessage &&
-            <p>{errorMessage}</p>
-          }
-          <form 
-            className="my-form"
-          >
-            <label className="button" htmlFor="fileElem">Upload desired image</label>
-            <input 
-              type="file" 
-              id="upload-input"
-              accept="image/*"  
-              onChange={e => this.handleFiles(e.target.files[0])}
-            />
-          </form>
-          {
-            progressValue &&
-            <Progress percent={progressValue} indicating />
-          }
-          <div id={"gallery"}></div>
-        </div>
+        {
+          errorMessage &&
+          <p>{errorMessage}</p>
+        }
+        <input 
+          type="file" 
+          id="fileElem"
+          accept="image/*"  
+          className={"file-upload-input"}
+          onChange={e => this.handleFiles(e.target.files[0])}
+        />
+        <label htmlFor="fileElem" arial-label="Click to upload image" className={"main-button bold"} id="upload-label">
+          Upload Image
+        </label>
+
+        {
+          filename &&
+          <p>
+            Uploaded {filename}
+          </p>
+        }
       </div>
     )
   }

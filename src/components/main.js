@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Container } from 'semantic-ui-react';
-import "semantic-ui-css/components/container.min.css";
+import { Grid } from 'semantic-ui-react';
 import ImageUploader from './imageUploader'
 import BoldSelect from './boldselect'
 import TextSelect from './textselect'
@@ -40,70 +39,43 @@ class Main extends Component {
     } = this.props
 
     return (
-      <Grid stackable columns={2} className={"app-container"}>
+      <Grid stackable className={"app-container"}>
         {
           !reset &&
           <>
-            <Grid.Column width={16} style={{ display: previewMode ? "none": "" }}>
-              <Container>
-                <img src="" alt="header logo" className={"header-logo"} />
-                <br/>
-                <h1 className={"header-title"}>
-                  <q>
-                    We'll be better &amp; Stronger
-                  </q>
-                </h1>
-              </Container>
+            <Grid.Column width={16}>
+              <Grid columns={2} reversed={"mobile vertically"} stackable className={"main-control-grid"}>
+                <Grid.Column width={5} className={"sidebar-column"} style={{ display: previewMode ? "none": "" }}>
+                  <BoldSelect 
+                    doSetPreviewBoldText={doSetPreviewBoldText}
+                  />
+                  <TextSelect 
+                    doSetPreviewText={doSetPreviewText}
+                  />
+                  <ImageUploader 
+                    doUploadImage={doUploadImage}
+                    errorMessage={errorMessage}
+                    progressValue={progressValue}
+                    doSetImage={doSetImage}
+                  />
+                  <BackgroundSelect
+                    doSetPreviewBackground={doSetPreviewBackground}
+                  />
+                </Grid.Column>
+
+                <Grid.Column width={11} className={previewMode ? "preview-column" : "editing preview-column"}>
+                  <PreviewContainer 
+                    imageUrl={imageUrl}
+                    previewText={previewText}
+                    previewBoldText={previewBoldText}
+                    previewBackground={previewBackground}
+                    previewMode={previewMode}
+                    doSetActivePreview={doSetActivePreview}
+                    selectedPreview={selectedPreview}
+                  />
+                </Grid.Column>
+              </Grid>
             </Grid.Column>
-
-            <Grid.Row stretched style={{ display: previewMode ? "none": "" }}>
-              <Grid.Column width={6}>
-                <BoldSelect 
-                  doSetPreviewBoldText={doSetPreviewBoldText}
-                />
-                <TextSelect 
-                  doSetPreviewText={doSetPreviewText}
-                />
-                <ImageUploader 
-                  doUploadImage={doUploadImage}
-                  errorMessage={errorMessage}
-                  progressValue={progressValue}
-                  doSetImage={doSetImage}
-                />
-                <BackgroundSelect
-                  doSetPreviewBackground={doSetPreviewBackground}
-                />
-              </Grid.Column>
-
-              <Grid.Column width={10}>
-                <PreviewContainer 
-                  imageUrl={imageUrl}
-                  previewText={previewText}
-                  previewBoldText={previewBoldText}
-                  previewBackground={previewBackground}
-                  previewMode={previewMode}
-                  doSetActivePreview={doSetActivePreview}
-                  selectedPreview={selectedPreview}
-                />
-              </Grid.Column>
-            </Grid.Row>
-
-            {
-              previewMode &&
-
-              <Grid.Column width={16}>
-                <PreviewContainer 
-                  imageUrl={imageUrl}
-                  previewText={previewText}
-                  previewBoldText={previewBoldText}
-                  previewBackground={previewBackground}
-                  previewMode={previewMode}
-                  doSetActivePreview={doSetActivePreview}
-                  selectedPreview={selectedPreview}
-                />
-              </Grid.Column>
-            }
-
             <Grid.Column width={16}>
               <ControlSection
                 doSetPreviewMode={doSetPreviewMode}
@@ -111,6 +83,8 @@ class Main extends Component {
                 doShareImage={doShareImage}
                 doDownloadImage={doDownloadImage}
                 doResetChanges={doResetChanges}
+                imageUrl={imageUrl}
+                previewBackground={previewBackground}
               />
             </Grid.Column>
           </>

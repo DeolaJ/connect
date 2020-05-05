@@ -14,7 +14,7 @@ const TextSelect = (props) => {
         type="text" 
         value={bodyText}
         placeholder={"Enter desired message"}
-        className={"other-bold-input"} 
+        className={"other-body-input"} 
         onChange={e => setBodyText(e.target.value)} 
         onBlur={e => setBodyText(e.target.value)}
       />

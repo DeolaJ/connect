@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Layout from './components/layout'
+import Footer from './components/footer'
 
 const App = () => {
   
@@ -18,6 +19,7 @@ const App = () => {
   return (
     <div>
       <Layout />
+      <Footer />
     </div>
   )
 }

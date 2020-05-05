@@ -1,0 +1,39 @@
+.control-section {
+  margin-top: 2rem;
+
+  h3 {
+    padding-left: 1.7rem;
+    color: white
+  }
+
+  a {
+    color: white;
+    font-weight: 700;
+  }
+
+  .control-buttons {
+    margin-top: 2rem;
+
+    button {
+      text-transform: uppercase;
+    }
+
+    button + button {
+      margin-left: 1.5rem;
+    }
+
+    .back-button {
+      margin-top: 4rem;
+      font-size: 1rem;
+    }
+
+    @media (min-width: 768px) {
+
+      text-align: right;
+
+      &.centered {
+        text-align: center;
+      }
+    }
+  }
+}

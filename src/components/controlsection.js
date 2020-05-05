@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Checkbox } from 'semantic-ui-react';
 import "semantic-ui-css/components/checkbox.min.css";
+import '../styles/controlsection.scss'
 
 const ControlSection = (props) => {
   const [checked, setChecked] = useState({
@@ -8,7 +9,7 @@ const ControlSection = (props) => {
     checkTwo: false
   })
   const { doSetPreviewMode, previewMode, doShareImage, 
-    doDownloadImage, doResetChanges 
+    doDownloadImage, doResetChanges , imageUrl, previewBackground
   } = props
 
   return (
@@ -45,30 +46,57 @@ const ControlSection = (props) => {
         </div>
       }
 
-      <div className={"control-buttons"}>
+      <div className={previewMode ? "centered control-buttons" : "control-buttons"}>
         {
           !previewMode 
           
           ?
 
           <>
-            <button className={"reset-button"} onClick={doResetChanges}>Reset</button>
-            <button className={"continue-button"} onClick={e => doSetPreviewMode(true)}>Continue</button>
+            <button 
+              className={"reset-button main-button"} 
+              onClick={doResetChanges}
+            >
+              Reset
+            </button>
+
+            <button 
+              className={"continue-button main-button"} 
+              onClick={e => doSetPreviewMode(true)}
+              disabled={!(imageUrl.length || previewBackground.length)}
+            >
+              Continue
+            </button>
           </>
 
           :
 
           <>
-            <button className={"reset-button"} onClick={doResetChanges}>Start over</button>
-            <button className={"share-button"} onClick={doShareImage}>Share</button>
-            <button className={"download-button"} onClick={doDownloadImage}>Download</button>
+            <button 
+              className={"reset-button main-button"} 
+              onClick={doResetChanges}
+            >
+              Start over
+            </button>
+            <button 
+              className={"share-button main-button"} 
+              onClick={doShareImage}
+            >
+              Share
+            </button>
+            <button 
+              className={"download-button main-button"} 
+              onClick={doDownloadImage}
+            >
+              Download
+            </button>
           </>
         }
         
         {
           previewMode &&
           <div>
-            <button onClick={e => doSetPreviewMode(false)}>Back</button>
+            <button className={"back-button main-button"} onClick={e => doSetPreviewMode(false)}><span>&#60;</span> Back</button>
           </div>
         }
       </div>

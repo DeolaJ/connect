@@ -95,6 +95,18 @@ const BackgroundSelect = (props) => {
           ))
         }
       </div>
+      <br/>
+      <label>
+        Custom Background color (HEX)
+        <input 
+          type="text" 
+          value={backgroundText}
+          placeholder={"#000000"}
+          className={"other-body-input"} 
+          onChange={e => setBackgroundText(e.target.value)} 
+          onBlur={e => setBackgroundText(e.target.value)}
+        />
+      </label>
     </div>
   )
 }
