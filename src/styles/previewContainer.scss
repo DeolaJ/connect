@@ -1,0 +1,138 @@
+.preview-container {
+
+  h4 {
+    color: white;
+    margin-top: 0;
+  }
+
+  .sample-list,
+  .menu-list {
+    display: flex;
+
+    > div {
+      flex-basis: 45%;
+    }
+
+    img {
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+
+      > div + div {
+        margin-left: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+
+      > div + div {
+        margin-left: 1.5rem;
+      }
+    }
+  }
+
+  .sample-list {
+    opacity: .5;
+  }
+
+  .image-preview,
+  .color-preview {
+    border: 3px solid #d7dfe5;
+    position: relative;
+    cursor: pointer;
+
+    &.active {
+      border-color: yellow;
+    }
+  }
+
+  .text-container {
+    position: absolute;
+    z-index: 2;
+    padding: 0 20%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    text-align: center;
+
+    > div {
+      border: 2px solid #d7dfe5;
+      padding: 4%;
+    }
+
+    img {
+      width: 85%;
+    }
+  }
+
+  .image-footer {
+    position: absolute;
+    bottom: 4px;
+    padding: 0 .3rem;
+    left: 0;
+    width: 100%;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    p {
+      margin: 0;
+      font-size: .7vw;
+      text-align: center;
+      line-height: 1.7vw;
+      margin-bottom: 2px;
+    }
+
+    span {
+      display: block;
+      line-height: 2px;
+    }
+
+    img {
+      width: 24px;
+    }
+  }
+
+  &:not(.editing-preview) {
+
+    .image-footer {
+      position: absolute;
+      bottom: 1.4%;
+      padding: 0 1%;
+      left: 0;
+      width: 100%;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      p {
+        margin: 0;
+        font-size: 2.3vw;
+        text-align: center;
+        line-height: 200%;
+        margin-bottom: 1%;
+      }
+
+      img {
+        width: 8%;
+      }
+
+      @media (min-width: 768px) {
+
+        padding: 0 1.3%;
+
+        p {
+          font-size: 1.7vw
+        }
+
+        img {
+          width: 10%;
+        }
+      }
+    }
+  }
+}

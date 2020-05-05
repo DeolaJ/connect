@@ -31,8 +31,8 @@ const BoldSelect = (props) => {
         value={boldText}
         onChange={e => setBoldText(e.target.value)} 
         onBlur={e => setBoldText(e.target.value)}
+        className={"main-select main-button"}
       >
-        <option>Select an option</option>
         {
           boldTextOptions.map(option => (
             <option 

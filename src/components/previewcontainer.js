@@ -1,4 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
+import sample1 from '../images/1.jpg'
+import sample2 from '../images/2.jpg'
+import '../styles/previewContainer.scss'
+import logo from '../images/crest_logo.png'
+import covid from '../images/header.png'
 
 const PreviewContainer = (props) => {
   const { previewText, previewBoldText, previewBackground, imageUrl,
@@ -6,11 +11,26 @@ const PreviewContainer = (props) => {
   } = props
 
   const [ selectPreview, setSelectPreview ] = useState({ type: selectedPreview })
+  const [ containerWidth, setContainerWidth ] = useState(0)
 
   const setPreview = (type) => {
     const newSelectObj = { type: type };
     setSelectPreview(newSelectObj)
   }
+
+  const resizeContainers = () => {
+    const width = (document.getElementById("image-preview") && document.getElementById("image-preview").clientWidth) || document.getElementById("color-preview").clientWidth
+    setContainerWidth(width)
+  }
+
+  useEffect(() => {
+    if ((imageUrl.length > 0) || (previewBackground.length > 0)) {
+      resizeContainers()
+      window.addEventListener("resize", resizeContainers)
+    } else {
+      window.removeEventListener("resize", resizeContainers)
+    }
+  }, [imageUrl, previewBackground, previewMode])
 
   useEffect(() => {
     doSetActivePreview(selectPreview.type)
@@ -21,55 +41,104 @@ const PreviewContainer = (props) => {
       className={!previewMode ? "editing-preview preview-container" : "preview-container"} 
     >
       {
-        !previewMode 
+        !(imageUrl.length || previewBackground.length) &&
 
-        ?
+        <div className={"samples"}>
+          <h4>Sample Final Uploads</h4>
 
-        <div role="menu">
-          <div 
-            className={ selectPreview.type === "image" ? "active image-preview" : "image-preview"} 
-            style={{ backgroundImage: `url(${imageUrl})`}}
-            onClick={e => setPreview("image")}
-            onKeyUp={e => setPreview("image")}
-            role={"menuitem"}
-            tabIndex={0}
-          >
-            <div className={"text-container"}>
-              <div className={"bold-text"}>{previewBoldText}</div>
-              <div className={"body-text"}>{previewText}</div>
+          <div className={"sample-list"}>
+            <div>
+              <img src={sample1} alt="Sample upload 1"/>
             </div>
-          </div>
-
-          <div 
-            className={ selectPreview.type === "color" ? "active color-preview" : "color-preview"}
-            style={{ backgroundColor: previewBackground }}
-            onClick={e => setPreview("color")}
-            onKeyUp={e => setPreview("color")}
-            role={"menuitem"}
-            tabIndex={-1}
-          >
-            <div className={"text-container"}>
-              <div className={"bold-text"}>{previewBoldText}</div>
-              <div className={"body-text"}>{previewText}</div>
+            <div>
+              <img src={sample2} alt="Sample upload 2"/>
             </div>
           </div>
         </div>
-
-        :
+      }
+      {
+        !previewMode && (imageUrl.length || previewBackground.length) &&
 
         <>
+          <h4>Click your preferred Image type</h4>
+          <div className={"menu-list"} role="menu">
+            <div 
+              className={ selectPreview.type === "image" ? "active image-preview preview" : "image-preview preview"} 
+              style={{ backgroundImage: `url(${imageUrl})`, height: `${containerWidth}px` }}
+              onClick={e => setPreview("image")}
+              onKeyUp={e => setPreview("image")}
+              role={"menuitem"}
+              tabIndex={0}
+              id={"image-preview"}
+            >
+              <div className={"text-container"}>
+                <div>
+                  <img src={covid} alt="post covid logo" />
+                  <div className={"bold-text"}>{previewBoldText}</div>
+                  <div className={"body-text"}>{previewText}</div>
+                </div>
+              </div>
+              <div className="image-footer">
+                <img src={logo} alt="connect marketing logo" />
+                <p>
+                  #Better<span>AndStronger</span>
+                </p>
+              </div>
+            </div>
+
+            <div 
+              className={ selectPreview.type === "color" ? "active color-preview preview" : "color-preview preview"}
+              style={{ backgroundColor: previewBackground, height: `${containerWidth}px` }}
+              onClick={e => setPreview("color")}
+              onKeyUp={e => setPreview("color")}
+              role={"menuitem"}
+              tabIndex={-1}
+              id={"color-preview"}
+            >
+              <div className={"text-container"}>
+                <div>
+                  <img src={covid} alt="post covid logo" />
+                  <div className={"bold-text"}>{previewBoldText}</div>
+                  <div className={"body-text"}>{previewText}</div>
+                </div>
+              </div>
+              <div className="image-footer">
+                <img src={logo} alt="connect marketing logo" />
+                <p>
+                  #Better<span>AndStronger</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </>
+      }
+
+      {
+        previewMode && (imageUrl.length || previewBackground.length) &&
+
+        <div className={"final-result"}>
           {
             selectedPreview === "image"
 
             &&
 
             <div 
-              className={"image-preview"} 
-              style={{ backgroundImage: `url(${imageUrl})`}}
+              className={"image-preview preview"} 
+              style={{ backgroundImage: `url(${imageUrl})`, height: `${containerWidth}px`}}
+              id={"image-preview"}
             >
               <div className={"text-container"}>
-                <div className={"bold-text"}>{previewBoldText}</div>
-                <div className={"body-text"}>{previewText}</div>
+                <div>
+                  <img src={covid} alt="post covid logo" />
+                  <div className={"bold-text"}>{previewBoldText}</div>
+                  <div className={"body-text"}>{previewText}</div>
+                </div>
+              </div>
+              <div className="image-footer">
+                <img src={logo} alt="connect marketing logo" />
+                <p>
+                  #Better<span>AndStronger</span>
+                </p>
               </div>
             </div>
           }
@@ -80,17 +149,26 @@ const PreviewContainer = (props) => {
             &&
 
             <div 
-              className={"color-preview"}
-              style={{ backgroundColor: previewBackground }}
+              className={"color-preview preview"}
+              style={{ backgroundColor: previewBackground, height: `${containerWidth}px` }}
+              id={"color-preview"}
             >
               <div className={"text-container"}>
-                <div className={"bold-text"}>{previewBoldText}</div>
-                <div className={"body-text"}>{previewText}</div>
+                <div>
+                  <img src={covid} alt="post covid logo" />
+                  <div className={"bold-text"}>{previewBoldText}</div>
+                  <div className={"body-text"}>{previewText}</div>
+                </div>
+              </div>
+              <div className="image-footer">
+                <img src={logo} alt="connect marketing logo" />
+                <p>
+                  #Better<span>AndStronger</span>
+                </p>
               </div>
             </div>
           }
-        </>
-
+        </div>
       }
     </div>
   )
