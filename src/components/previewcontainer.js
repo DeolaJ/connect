@@ -3,7 +3,7 @@ import sample1 from '../images/1.jpg'
 import sample2 from '../images/2.jpg'
 import '../styles/previewContainer.scss'
 import logo from '../images/crest_logo.png'
-import covid from '../images/header.png'
+import covid from '../images/header_small.png'
 
 const PreviewContainer = (props) => {
   const { previewText, previewBoldText, previewBackground, imageUrl,
@@ -12,25 +12,36 @@ const PreviewContainer = (props) => {
 
   const [ selectPreview, setSelectPreview ] = useState({ type: selectedPreview })
   const [ containerWidth, setContainerWidth ] = useState(0)
+  const [ allowPreview, setAllowPreview ] = useState(false)
 
   const setPreview = (type) => {
     const newSelectObj = { type: type };
     setSelectPreview(newSelectObj)
   }
 
+  useEffect(() => {
+    if (
+      previewBackground.length || imageUrl.length || 
+      previewBoldText || previewText
+    ) {
+      setAllowPreview(true)
+    }
+  }, [previewBackground, imageUrl, previewText, 
+    previewBoldText, setAllowPreview])
+
   const resizeContainers = () => {
     const width = (document.getElementById("image-preview") && document.getElementById("image-preview").clientWidth) || document.getElementById("color-preview").clientWidth
     setContainerWidth(width)
   }
 
-  useEffect(() => {
-    if ((imageUrl.length > 0) || (previewBackground.length > 0)) {
+  useLayoutEffect(() => {
+    if (allowPreview) {
       resizeContainers()
       window.addEventListener("resize", resizeContainers)
     } else {
       window.removeEventListener("resize", resizeContainers)
     }
-  }, [imageUrl, previewBackground, previewMode])
+  }, [allowPreview])
 
   useEffect(() => {
     doSetActivePreview(selectPreview.type)
@@ -41,7 +52,7 @@ const PreviewContainer = (props) => {
       className={!previewMode ? "editing-preview preview-container" : "preview-container"} 
     >
       {
-        !(imageUrl.length || previewBackground.length) &&
+        !allowPreview &&
 
         <div className={"samples"}>
           <h4>Sample Final Uploads</h4>
@@ -57,7 +68,7 @@ const PreviewContainer = (props) => {
         </div>
       }
       {
-        !previewMode && (imageUrl.length || previewBackground.length) &&
+        !previewMode && allowPreview &&
 
         <>
           <h4>Click your preferred Image type</h4>
@@ -114,7 +125,7 @@ const PreviewContainer = (props) => {
       }
 
       {
-        previewMode && (imageUrl.length || previewBackground.length) &&
+        previewMode && allowPreview &&
 
         <div className={"final-result"}>
           {

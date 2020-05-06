@@ -85,6 +85,8 @@ class Main extends Component {
                 doResetChanges={doResetChanges}
                 imageUrl={imageUrl}
                 previewBackground={previewBackground}
+                previewText={previewText}
+                previewBoldText={previewBoldText}
               />
             </Grid.Column>
           </>

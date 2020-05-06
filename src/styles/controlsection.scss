@@ -11,6 +11,11 @@
     font-weight: 700;
   }
 
+  .ui.checkbox label:hover {
+    color: #eee;
+    text-decoration: underline;
+  }
+
   .control-buttons {
     margin-top: 2rem;
 
