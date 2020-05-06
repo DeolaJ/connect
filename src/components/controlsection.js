@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Checkbox } from 'semantic-ui-react';
 import "semantic-ui-css/components/checkbox.min.css";
 import '../styles/controlsection.scss'
@@ -8,9 +8,21 @@ const ControlSection = (props) => {
     checkOne: false,
     checkTwo: false
   })
+  const [allowProgress, setAllowProgress] = useState(false)
   const { doSetPreviewMode, previewMode, doShareImage, 
-    doDownloadImage, doResetChanges , imageUrl, previewBackground
+    doDownloadImage, doResetChanges , imageUrl, previewBackground,
+    previewBoldText, previewText
   } = props
+  useEffect(() => {
+    if (
+      (previewBackground.length || imageUrl.length) 
+      && previewBoldText && previewText 
+      && checked.checkOne && checked.checkTwo
+    ) {
+      setAllowProgress(true)
+    }
+  }, [previewBackground, imageUrl, previewText, 
+    previewBoldText, setAllowProgress, checked])
 
   return (
     <div className={"control-section"}>
@@ -63,7 +75,7 @@ const ControlSection = (props) => {
             <button 
               className={"continue-button main-button"} 
               onClick={e => doSetPreviewMode(true)}
-              disabled={!(imageUrl.length || previewBackground.length)}
+              disabled={!allowProgress}
             >
               Continue
             </button>

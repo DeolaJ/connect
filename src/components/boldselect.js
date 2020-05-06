@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const BoldSelect = (props) => {
 
-  const [ boldText, setBoldText ] = useState("I will")
+  const [ boldText, setBoldText ] = useState("")
   const { doSetPreviewBoldText } = props
 
   useEffect(() => {
@@ -16,11 +16,19 @@ const BoldSelect = (props) => {
     },
     {
       id: 2,
-      text: "We will"
+      text: "I learnt"
     },
     {
       id: 3,
-      text: "You will"
+      text: "I hope"
+    },
+    {
+      id: 4,
+      text: "I realize"
+    },
+    {
+      id: 5,
+      text: "I was reminded"
     }
   ]
 
@@ -33,6 +41,7 @@ const BoldSelect = (props) => {
         onBlur={e => setBoldText(e.target.value)}
         className={"main-select main-button"}
       >
+        <option value={""}>Select action</option>
         {
           boldTextOptions.map(option => (
             <option 

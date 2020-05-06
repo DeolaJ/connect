@@ -41,6 +41,8 @@
     border: 3px solid #d7dfe5;
     position: relative;
     cursor: pointer;
+    background-blend-mode: multiply;
+    background-color: rgba(0, 0, 58, .5);
 
     &.active {
       border-color: yellow;
@@ -60,10 +62,43 @@
     > div {
       border: 2px solid #d7dfe5;
       padding: 4%;
+      background: rgba(255, 255, 255, .15);
     }
 
     img {
       width: 85%;
+    }
+
+    .bold-text {
+      background: rgba(219, 22, 10, .2);
+      font-size: 70%;
+      font-weight: 600;
+      margin: 0 1.2vw;
+      color: white;
+      border: 1px solid white;
+      border-radius: 0.4vw;
+    }
+
+    .body-text {
+      padding: .6vw 1vw;
+      line-height: 1.8vw;
+      font-size: 64%;
+      color: rgba(255, 255, 255, .95);
+    }
+
+    @media (min-width: 768px) {
+
+      .bold-text {
+        font-size: 63%;
+        margin: 0 1vw;
+        border-radius: 0.3vw;
+      }
+
+      .body-text {
+        padding: .6vw .65vw;
+        line-height: 1.4vw;
+        font-size: 62%;
+      }
     }
   }
 

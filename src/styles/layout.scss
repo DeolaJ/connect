@@ -50,7 +50,7 @@
     display: block;
     font-size: 1rem;
     font-family: sans-serif;
-    font-weight: 700;
+    font-weight: 500;
     border-radius: 0;
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -105,6 +105,10 @@
     margin-top: .5rem;
     border: none;
     display: block;
+
+    @media (min-width: 500px) and (max-width: 768px) {
+      width: 60%;
+    }
   }
 
   .main-control-grid.grid {
@@ -123,11 +127,14 @@
         margin: 0 auto;
       }
     }
+
+    @media (max-width: 768px) {
+
+      .preview-column.editing {
+        margin-bottom: 2rem !important;
+      }
+    }
   }
-
-  // .sidebar-column.column {
-
-  // }
 
   #background-options {
     display: flex;
