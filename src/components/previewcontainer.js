@@ -41,7 +41,7 @@ const PreviewContainer = (props) => {
     } else {
       window.removeEventListener("resize", resizeContainers)
     }
-  }, [allowPreview])
+  }, [allowPreview, previewMode])
 
   useEffect(() => {
     doSetActivePreview(selectPreview.type)
