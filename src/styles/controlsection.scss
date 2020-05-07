@@ -21,10 +21,16 @@
 
     button {
       text-transform: uppercase;
+      margin-right: 1.5rem;
+
+      @media (max-width: 500px) {
+
+        margin-bottom: 1rem;
+      }
     }
 
-    button + button {
-      margin-left: 1.5rem;
+    .download-button {
+      margin-right: 0;
     }
 
     .back-button {

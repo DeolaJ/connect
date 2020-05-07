@@ -76,7 +76,8 @@
   .main-button {
     display: inline-block;
     padding: .8rem 1.4rem;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    letter-spacing: .3px;
     color: white;
     cursor: pointer;
     border: 2px solid #d7dfe5;
@@ -148,5 +149,10 @@
       cursor: pointer;
       border: none;
     }
+  }
+
+  @media (max-width: 370px) {
+
+    padding: 5vw 1.5vw;
   }
 }

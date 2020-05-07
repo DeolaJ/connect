@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
+import { Responsive } from 'semantic-ui-react'
 import sample1 from '../images/1.jpg'
 import sample2 from '../images/2.jpg'
 import '../styles/previewContainer.scss'
 import logo from '../images/crest_logo.png'
 import covid from '../images/header_small.png'
+import covidMed from '../images/header_med.png'
+import covidLarge from '../images/header.png'
 
 const PreviewContainer = (props) => {
   const { previewText, previewBoldText, previewBackground, imageUrl,
@@ -30,7 +33,8 @@ const PreviewContainer = (props) => {
     previewBoldText, setAllowPreview])
 
   const resizeContainers = () => {
-    const width = (document.getElementById("image-preview") && document.getElementById("image-preview").clientWidth) || document.getElementById("color-preview").clientWidth
+    const width = (document.getElementById("image-preview") && document.getElementById("image-preview").clientWidth) || 
+      document.getElementById("color-preview").clientWidth
     setContainerWidth(width)
   }
 
@@ -85,7 +89,10 @@ const PreviewContainer = (props) => {
               <div className={"text-container"}>
                 <div>
                   <img src={covid} alt="post covid logo" />
-                  <div className={"bold-text"}>{previewBoldText}</div>
+                  {
+                    previewBoldText &&
+                    <div className={"bold-text"}>{previewBoldText}</div>
+                  }
                   <div className={"body-text"}>{previewText}</div>
                 </div>
               </div>
@@ -109,7 +116,10 @@ const PreviewContainer = (props) => {
               <div className={"text-container"}>
                 <div>
                   <img src={covid} alt="post covid logo" />
-                  <div className={"bold-text"}>{previewBoldText}</div>
+                  {
+                    previewBoldText &&
+                    <div className={"bold-text"}>{previewBoldText}</div>
+                  }
                   <div className={"body-text"}>{previewText}</div>
                 </div>
               </div>
@@ -140,8 +150,19 @@ const PreviewContainer = (props) => {
             >
               <div className={"text-container"}>
                 <div>
-                  <img src={covid} alt="post covid logo" />
-                  <div className={"bold-text"}>{previewBoldText}</div>
+                  <Responsive maxWidth={400}>
+                    <img src={covid} alt="post covid logo" />
+                  </Responsive>
+                  <Responsive minWidth={401} maxWidth={1020} >
+                    <img src={covidMed} alt="post covid logo" />
+                  </Responsive>
+                  <Responsive minWidth={1021}>
+                    <img src={covidLarge} alt="post covid logo"/>
+                  </Responsive>
+                  {
+                    previewBoldText &&
+                    <div className={"bold-text"}>{previewBoldText}</div>
+                  }
                   <div className={"body-text"}>{previewText}</div>
                 </div>
               </div>
@@ -165,9 +186,20 @@ const PreviewContainer = (props) => {
               id={"color-preview"}
             >
               <div className={"text-container"}>
-                <div>
-                  <img src={covid} alt="post covid logo" />
-                  <div className={"bold-text"}>{previewBoldText}</div>
+                <div> 
+                  <Responsive maxWidth={400}>
+                    <img src={covid} alt="post covid logo" />
+                  </Responsive>
+                  <Responsive minWidth={401} maxWidth={1020} >
+                    <img src={covidMed} alt="post covid logo" />
+                  </Responsive>
+                  <Responsive minWidth={1021}>
+                    <img src={covidLarge} alt="post covid logo"/>
+                  </Responsive>
+                  {
+                    previewBoldText &&
+                    <div className={"bold-text"}>{previewBoldText}</div>
+                  }
                   <div className={"body-text"}>{previewText}</div>
                 </div>
               </div>
