@@ -1,4 +1,5 @@
 import { firebase } from './../firebase'
+import domtoimage from 'dom-to-image'
 
 export const RESET_PROGRESS = "RESET_PROGRESS"
 
@@ -115,6 +116,16 @@ const errorHide = (payload) => ({
   payload
 })
 
+export const dataURItoBlob = (dataURI) => {
+  var byteString = atob(dataURI.split(',')[1]);
+  var ab = new ArrayBuffer(byteString.length);
+  var ia = new Uint8Array(ab);
+  for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: 'image/png' });
+}
+
 export const setErrorMessage = (errorMessage) => dispatch => {
   dispatch(errorNotify(errorMessage))
   setTimeout(() => {
@@ -212,8 +223,38 @@ export const doShareImage = () => (dispatch) => {
   return dispatch(shareImage())
 }
 
-export const doDownloadImage = (imageUrl) => dispatch => {
+export const doDownloadImage = (selectedPreview) => dispatch => {
   dispatch(downloadResultStart())
+
+  const node = document.querySelector(`.${selectedPreview}-preview.final`)
+  domtoimage.toPng(node)
+  .then (function (dataUrl) {
+    var link = document.createElement('a');
+    link.setAttribute('crossOrigin', 'anonymous')
+    link.download = 'p-covid.png';
+    link.href = dataUrl;
+    link.click();
+    dispatch(uploadImageStart())
+    let url = "/.netlify/functions/upload"
+    
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        dataUrl: dataUrl
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      dispatch(uploadImageSuccess())
+    })
+    .catch(() => { 
+      dispatch(uploadImageFailure())
+      setErrorMessage("There was an error uploading the image, Please try again")
+    })
+  })
+  .catch(function (error) {
+    console.error('oops, something went wrong!', error);
+  })
 }
 
 export default {

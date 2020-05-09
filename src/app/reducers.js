@@ -23,7 +23,7 @@ export const defaultState = {
   errorMessage: "",
   progressValue: -1,
   previewText: "",
-  previewBoldText: "",
+  previewBoldText: "I will",
   previewBackground: "",
   previewMode: false,
   selectedPreview: "image"

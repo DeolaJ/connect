@@ -35,5 +35,6 @@ body * {
 
 #root {
   background: linear-gradient(184deg, rgba(0,0,58,1) 0%, rgba(3,28,77,1) 50%, rgba(205,111,102,1) 100%);
+  overflow: hidden;
   /* background-color: linear-gradient(to bottom, #00003a, #031c4d, #cd6f66, #c7a682) */
 }

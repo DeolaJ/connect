@@ -2,7 +2,6 @@ import React from 'react'
 import { Grid, Container } from 'semantic-ui-react';
 import "semantic-ui-css/components/grid.min.css";
 import "semantic-ui-css/components/container.min.css";
-import "semantic-ui-css/components/dropdown.min.css";
 import Main from './main'
 import '../styles/layout.scss'
 import header from '../images/header.png'

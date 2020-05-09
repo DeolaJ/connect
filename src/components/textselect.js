@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 const TextSelect = (props) => {
-  const [ bodyText, setBodyText ] = useState("")
-  const { doSetPreviewText } = props
+  const { doSetPreviewText, previewText } = props
+  const [ bodyText, setBodyText ] = useState(previewText)
   useEffect(() => {
     doSetPreviewText(bodyText)
   }, [bodyText, setBodyText, doSetPreviewText])
