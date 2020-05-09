@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "cloudinary": "^1.21.0",
     "cloudinary-react": "^1.5.0",
+    "dom-to-image": "^2.6.0",
     "encoding": "^0.1.12",
     "faunadb": "^2.13.1",
     "firebase": "^7.14.2",
@@ -38,8 +39,13 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": ["react-app", "plugin:jsx-a11y/recommended"],
-    "plugins": ["jsx-a11y"]
+    "extends": [
+      "react-app",
+      "plugin:jsx-a11y/recommended"
+    ],
+    "plugins": [
+      "jsx-a11y"
+    ]
   },
   "browserslist": {
     "production": [

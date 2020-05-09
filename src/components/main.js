@@ -9,6 +9,7 @@ import ControlSection from './controlsection'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import appActions from '../app/actions'
+import "semantic-ui-css/components/transition.min.css";
 
 class Main extends Component {
   static propTypes = {
@@ -47,9 +48,11 @@ class Main extends Component {
               <Grid columns={2} reversed={"mobile vertically"} stackable className={"main-control-grid"}>
                 <Grid.Column width={5} className={"sidebar-column"} style={{ display: previewMode ? "none": "" }}>
                   <BoldSelect 
+                    previewBoldText={previewBoldText}
                     doSetPreviewBoldText={doSetPreviewBoldText}
                   />
                   <TextSelect 
+                    previewText={previewText}
                     doSetPreviewText={doSetPreviewText}
                   />
                   <ImageUploader 
@@ -59,6 +62,7 @@ class Main extends Component {
                     doSetImage={doSetImage}
                   />
                   <BackgroundSelect
+                    previewBackground={previewBackground}
                     doSetPreviewBackground={doSetPreviewBackground}
                   />
                 </Grid.Column>
@@ -86,6 +90,7 @@ class Main extends Component {
                 imageUrl={imageUrl}
                 previewBackground={previewBackground}
                 previewText={previewText}
+                selectedPreview={selectedPreview}
                 previewBoldText={previewBoldText}
               />
             </Grid.Column>
@@ -139,8 +144,8 @@ const mapDispatchToProps = (dispatch) => {
     doShareImage () {
       dispatch(appActions.doShareImage())
     },
-    doDownloadImage (imageUrl) {
-      dispatch(appActions.doDownloadImage(imageUrl))
+    doDownloadImage (selectedPreview) {
+      dispatch(appActions.doDownloadImage(selectedPreview))
     }
   }
 }

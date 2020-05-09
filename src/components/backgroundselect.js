@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 const BackgroundSelect = (props) => {
 
-  const [ backgroundText, setBackgroundText ] = useState("")
-  const { doSetPreviewBackground } = props
+  const { doSetPreviewBackground, previewBackground } = props
+  const [ backgroundText, setBackgroundText ] = useState(previewBackground)
 
   useEffect(() => {
     doSetPreviewBackground(backgroundText)
@@ -97,7 +97,7 @@ const BackgroundSelect = (props) => {
       </div>
       <br/>
       <label>
-        Custom Background color (HEX)
+        Set custom background color
         <input 
           type="text" 
           value={backgroundText}

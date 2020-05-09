@@ -1,36 +1,37 @@
 import cloudinary from 'cloudinary'
 
+const config = JSON.parse(process.env.REACT_APP_CLOUDINARY)
 cloudinary.config({ 
-  cloud_name: process.env.REACT_APP_CLOUDNAME, 
-  api_key: process.env.REACT_APP_API_KEY, 
-  api_secret: process.env.REACT_APP_SECRET_KEY
+  cloud_name: config.cloud_name, 
+  api_key: config.api_key, 
+  api_secret: config.api_secret
 })
 
-exports.handler = async (event, context, callback) => {
-  const data = JSON.parse(event.body)
+exports.handler = async (event, context) => {
 
-  let promise = await cloudinary.uploader.upload(data.file, {
-    tag: "connect-campaign"
-  })
-
-  promise
-  .then(response => response.json())
-  .then(response => {
-    callback(null, {
+  try {
+    const data = JSON.parse(event.body)
+    let timeStamp = new Date()
+    timeStamp = timeStamp.toJSON()
+    let promise = await cloudinary.v2.uploader.upload(data.dataUrl, {
+      public_id: `connect/p-covid-${timeStamp}`,
+      tags: "connect-campaign"
+    })
+    
+    return {
       statusCode: 200,
       body: JSON.stringify({
-          message: "connected",
-          response: response
+        message: "Image uploaded Successfully",
+        body: JSON.stringify(promise)
       })
-    })
-  })
-  .catch((error) => {
-    callback(null, {
-      statusCode: 400,
+    }
+  } catch (err) {
+    return {
+      statusCode: 500,
       body: JSON.stringify({
-          message: "Error occurred while uploading",
-          error: error
+        message: "Error occurred while uploading",
+        body: JSON.stringify(err)
       })
-    })
-  })
+    }
+  }
 }

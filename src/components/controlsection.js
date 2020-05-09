@@ -11,7 +11,7 @@ const ControlSection = (props) => {
   const [allowProgress, setAllowProgress] = useState(false)
   const { doSetPreviewMode, previewMode, doShareImage, 
     doDownloadImage, doResetChanges , imageUrl, previewBackground,
-    previewBoldText, previewText
+    previewBoldText, previewText, selectedPreview
   } = props
   useEffect(() => {
     if (
@@ -98,7 +98,7 @@ const ControlSection = (props) => {
             </button>
             <button 
               className={"download-button main-button"} 
-              onClick={doDownloadImage}
+              onClick={() => doDownloadImage(selectedPreview)}
             >
               Download
             </button>

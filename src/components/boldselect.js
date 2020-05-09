@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 const BoldSelect = (props) => {
-
-  const [ boldText, setBoldText ] = useState("")
+  const { previewBoldText } = props
+  const [ boldText, setBoldText ] = useState(previewBoldText)
   const { doSetPreviewBoldText } = props
 
   useEffect(() => {
@@ -34,7 +34,6 @@ const BoldSelect = (props) => {
 
   return (
     <label>
-      Set bold text
       <select
         value={boldText}
         onChange={e => setBoldText(e.target.value)} 

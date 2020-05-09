@@ -219,5 +219,42 @@
         }
       }
     }
+
+    .image-preview.final,
+    .color-preview.final {
+
+      .text-container {
+        padding: 0 22%;
+        
+        img {
+          width: auto;
+        }
+
+        .bold-text {
+          font-size: 28px;
+          margin: 0 44px;
+          padding: 20px;
+          line-height: 15px;
+          border-radius: 6px;
+        }
+
+        .body-text {
+          font-size: 25px;
+          line-height: 33px;
+          padding: 24px 24px 20px 24px;
+        }
+      }
+
+      .image-footer {
+
+        p {
+          font-size: 27px !important;
+        }
+
+        img {
+          width: 120px !important;
+        }
+      }
+    }
   }
 }

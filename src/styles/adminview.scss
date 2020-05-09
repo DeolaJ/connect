@@ -1,0 +1,71 @@
+.admin-container {
+  min-height: 91vh;
+  padding: 5rem 2.5rem;
+
+  .passcode-container {
+    position: absolute;
+    top: 50%;
+    width: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    text-align: center;
+    color: white;
+
+    .other-body-input {
+      padding: 1rem .6rem;
+      width: 100%;
+      margin-top: 1rem;
+      border: none;
+      display: block;
+      font-size: 20px;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+
+      top: 30%;
+      width: 80%;
+      font-size: 16px;
+
+      .other-body-input {
+        font-size: 16px;
+      }
+    }
+  }
+
+  h2 {
+    color: white;
+    margin-bottom: 4rem;
+  }
+
+  .user-images {
+
+    > div {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      > div {
+        flex-basis: 28%;
+
+        @media (max-width: 940px) {
+          flex-basis: 40%;
+        }
+
+        img {
+          border-radius: 0
+        }
+      }
+    }
+  }
+
+  .responsive {
+    margin-bottom: 3rem;
+
+    .desc {
+      color: white;
+      font-size: .8rem;
+    }
+  }
+}

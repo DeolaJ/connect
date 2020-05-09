@@ -1,0 +1,22 @@
+.error-container {
+  min-height: 92vh;
+  text-align: center;
+  padding: 11rem 2rem;
+
+  h1 {
+    font-size: 3rem;
+    color: white;
+    line-height: 3rem;
+  }
+
+  .main-button {
+    display: inline-block;
+    padding: .8rem 1.4rem;
+    font-size: 1rem;
+    letter-spacing: .3px;
+    color: white;
+    cursor: pointer;
+    border: 2px solid #d7dfe5;
+    background-color: rgba(255, 255, 255, 0.13);
+  }
+}
