@@ -52,6 +52,7 @@ class ImageUploader extends Component {
           accept="image/*"  
           className={"file-upload-input"}
           onChange={e => this.handleFiles(e.target.files[0])}
+          disabled={previewBackground.length}
         />
         <label htmlFor="fileElem" arial-label="Click to upload image" className={"main-button bold"} disabled={previewBackground.length} id="upload-label">
           Upload Image
