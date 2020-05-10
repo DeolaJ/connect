@@ -3,12 +3,32 @@
 
   h3 {
     padding-left: 1.7rem;
-    color: white
+    color: white;
+    margin-bottom: .8rem;
   }
 
   a {
     color: white;
     font-weight: 700;
+  }
+
+  .terms-section {
+    margin-bottom: 4rem;
+    padding-top: 2rem;
+
+    .ui.checkbox {
+      font-size: .93rem;
+    }
+
+    @media (max-width: 500px) {
+
+      margin-bottom: 2rem;
+      padding-top: 0rem;
+      
+      h3 {
+        font-size: 1rem;
+      }
+    }
   }
 
   .ui.checkbox label:hover {
@@ -21,7 +41,6 @@
 
     button {
       text-transform: uppercase;
-      margin-right: 1.5rem;
 
       @media (max-width: 500px) {
 
@@ -29,13 +48,70 @@
       }
     }
 
-    .download-button {
-      margin-right: 0;
+    .reset-button {
+      margin-right: 1.5rem;
     }
 
-    .back-button {
-      margin-top: 4rem;
-      font-size: 1rem;
+    .share-container {
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+
+      a {
+        text-decoration: none;
+      }
+
+      @media (max-width: 768px) {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+    }
+
+    .message-container {
+      margin-top: 3rem;
+
+      .main-button {
+        font-size: .8rem;
+      }
+    }
+
+    .share-button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    svg {
+      width: 14px;
+      margin-bottom: -2px;
+      margin-right: .6rem;
+      fill: white;
+    }
+
+    .copy-container {
+      text-align: center;
+      max-width: 500px;
+      margin: 1.5rem auto 0;
+
+      .main-button {
+        float: right;
+        margin-top: 1rem;
+      }
+    }
+
+    .message-text {
+      text-align: left;
+      display: block;
+      font-size: 14px;
+      line-height: 26px;
+      background: white;
+      padding: 1rem;
+      border-radius: 5px;
+
+      span {
+        font-size: 12px;
+        opacity: .6;
+      }
     }
 
     @media (min-width: 768px) {

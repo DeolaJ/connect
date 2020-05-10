@@ -13,8 +13,9 @@ exports.handler = async (event, context) => {
     const data = JSON.parse(event.body)
     let timeStamp = new Date()
     timeStamp = timeStamp.toJSON()
+    let day = timeStamp.substring(0, 10)
     let promise = await cloudinary.v2.uploader.upload(data.dataUrl, {
-      public_id: `connect/p-covid-${timeStamp}`,
+      public_id: `${day}/p-covid-${timeStamp}`,
       tags: "connect-campaign"
     })
     

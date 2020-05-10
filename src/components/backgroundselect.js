@@ -12,70 +12,75 @@ const BackgroundSelect = (props) => {
   const backgroundOptions = [
     {
       id: 1,
-      text: "blue",
-      value: "blue"
+      text: "pinot",
+      value: "pinot"
     },
     {
       id: 2,
-      text: "red",
-      value: "red"
+      text: "witching",
+      value: "witching"
     },
     {
       id: 3,
-      text: "yellow",
-      value: "yellow"
+      text: "space",
+      value: "space"
     },
     {
       id: 4,
-      text: "teal",
-      value: "teal"
+      text: "sinred",
+      value: "sinred"
     },
     {
       id: 5,
-      text: "peru",
-      value: "peru"
+      text: "expresso",
+      value: "expresso"
     },
     {
       id: 6,
-      text: "white",
-      value: "white"
+      text: "ocean",
+      value: "ocean"
     },
     {
       id: 7,
-      text: "black",
-      value: "black"
+      text: "lawrencium",
+      value: "lawrencium"
     },
     {
       id: 8,
-      text: "darkred",
-      value: "darkred"
+      text: "yna",
+      value: "yna"
     },
     {
       id: 9,
-      text: "darkblue",
-      value: "darkblue"
+      text: "coal",
+      value: "coal"
     },
     {
       id: 10,
-      text: "aliceblue",
-      value: "aliceblue"
+      text: "love",
+      value: "love"
     },
     {
       id: 11,
-      text: "grey",
-      value: "grey"
+      text: "ibiza",
+      value: "ibiza"
     },
     {
       id: 12,
-      text: "tan",
-      value: "tan"
+      text: "frost",
+      value: "frost"
     }
   ]
 
   return (
     <div className={"background-select"}>
       <label htmlFor={"background-options"}>
-        Select Background (optional)
+        Set Background Color
+
+        {
+          (backgroundText.length > 0) &&
+          <button aria-label={"reset background color"} title="reset background color" className={"reset-background"} onClick={() => setBackgroundText("")}>&times;</button>
+        }
       </label>
 
       <div className={"background-options"} role={"listbox"} id={"background-options"}>
@@ -89,13 +94,14 @@ const BackgroundSelect = (props) => {
               role={"option"}
               value={option.value}
               aria-selected={backgroundText === option.value}
-              style={{ backgroundColor: option.value, padding: "1rem" }}
+              style={{ padding: "1rem" }}
+              className={backgroundText === option.value ? `active ${option.value}` : option.value}
             >
             </button>
           ))
         }
       </div>
-      <br/>
+      {/* <br/>
       <label>
         Set custom background color
         <input 
@@ -106,7 +112,7 @@ const BackgroundSelect = (props) => {
           onChange={e => setBackgroundText(e.target.value)} 
           onBlur={e => setBackgroundText(e.target.value)}
         />
-      </label>
+      </label> */}
     </div>
   )
 }

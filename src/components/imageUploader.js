@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Progress } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import '../styles/imageUploader.scss';
 import "semantic-ui-css/components/progress.min.css";
+import { analytics } from '../firebase'
 
 class ImageUploader extends Component {
   static propTypes = {
@@ -31,10 +31,11 @@ class ImageUploader extends Component {
 
   handleFiles = (file) => {
     this.previewFile(file)
+    analytics.logEvent("upload_image", { name: "User uploaded image" })
   }
 
   render () {
-    const { errorMessage, progressValue } = this.props
+    const { errorMessage } = this.props
     const { filename } = this.state
 
     return (

@@ -3,10 +3,13 @@ import { Grid, Container } from 'semantic-ui-react';
 import "semantic-ui-css/components/grid.min.css";
 import "semantic-ui-css/components/container.min.css";
 import Main from './main'
+import { analytics } from '../firebase'
 import '../styles/layout.scss'
 import header from '../images/header.png'
 
 const Layout = (props) => {
+
+  analytics.logEvent("main_app_view", { name: "initial" })
 
   return (
     <Grid stackable className={"main-container"}>

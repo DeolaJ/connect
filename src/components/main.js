@@ -22,7 +22,6 @@ class Main extends Component {
     doSetPreviewBackground: PropTypes.func.isRequired,
     doSetActivePreview: PropTypes.func.isRequired,
     doSetPreviewMode: PropTypes.func.isRequired,
-    doShareImage: PropTypes.func.isRequired,
     doResetChanges: PropTypes.func.isRequired,
     doDownloadImage: PropTypes.func.isRequired,
     imageUrl: PropTypes.string,
@@ -36,7 +35,7 @@ class Main extends Component {
       doSetPreviewBoldText, doSetPreviewText, doSetPreviewBackground,
       imageUrl, previewText, previewBoldText, previewBackground,
       doSetActivePreview, previewMode, selectedPreview, doSetPreviewMode,
-      doResetChanges, doDownloadImage, doShareImage, reset
+      doResetChanges, doDownloadImage, reset
     } = this.props
 
     return (
@@ -61,13 +60,14 @@ class Main extends Component {
                     progressValue={progressValue}
                     doSetImage={doSetImage}
                   />
+                  <p className="separator">OR</p>
                   <BackgroundSelect
                     previewBackground={previewBackground}
                     doSetPreviewBackground={doSetPreviewBackground}
                   />
                 </Grid.Column>
 
-                <Grid.Column width={11} className={previewMode ? "preview-column" : "editing preview-column"}>
+                <Grid.Column verticalAlign="middle" width={previewMode ? 8 : 11} className={previewMode ? "preview-column" : "editing preview-column"}>
                   <PreviewContainer 
                     imageUrl={imageUrl}
                     previewText={previewText}
@@ -76,7 +76,8 @@ class Main extends Component {
                     previewMode={previewMode}
                     doSetActivePreview={doSetActivePreview}
                     selectedPreview={selectedPreview}
-                  />
+                    doSetPreviewMode={doSetPreviewMode}
+                />
                 </Grid.Column>
               </Grid>
             </Grid.Column>
@@ -84,7 +85,6 @@ class Main extends Component {
               <ControlSection
                 doSetPreviewMode={doSetPreviewMode}
                 previewMode={previewMode}
-                doShareImage={doShareImage}
                 doDownloadImage={doDownloadImage}
                 doResetChanges={doResetChanges}
                 imageUrl={imageUrl}
@@ -140,9 +140,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     doResetChanges () {
       dispatch(appActions.doResetChanges())
-    },
-    doShareImage () {
-      dispatch(appActions.doShareImage())
     },
     doDownloadImage (selectedPreview) {
       dispatch(appActions.doDownloadImage(selectedPreview))

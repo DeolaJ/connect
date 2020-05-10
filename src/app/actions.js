@@ -1,4 +1,4 @@
-import { firebase } from './../firebase'
+import { analytics } from './../firebase'
 import domtoimage from 'dom-to-image'
 
 export const RESET_PROGRESS = "RESET_PROGRESS"
@@ -24,7 +24,6 @@ export const ERROR_HIDE = "ERROR_HIDE"
 
 export const RESET_CHANGES = "RESET_CHANGES"
 export const RETURN_RESET = "RETURN_RESET"
-export const SHARE_IMAGE = "SHARE_IMAGE"
 
 const resetProgress = (payload) => ({
   type: RESET_PROGRESS,
@@ -103,11 +102,6 @@ const resetChanges = (payload) => ({
 
 const returnReset = (payload) => ({
   type: RETURN_RESET,
-  payload
-})
-
-const shareImage = (payload) => ({
-  type: SHARE_IMAGE,
   payload
 })
 
@@ -197,17 +191,19 @@ export const doSetActivePreview = (selectedPreview) => (dispatch) => {
 }
 
 export const doSetPreviewMode = (previewMode) => (dispatch) => {
+  analytics.logEvent("continue_to_preview", { name: "User clicked Continue" })
   return dispatch(setPreviewMode({
     previewMode
   }))
 }
 
 export const doResetChanges = () => (dispatch) => {
+  analytics.logEvent("restart_editing", { name: "User restarted creation" })
   dispatch(resetChanges({
     previewMode: false,
     imageUrl: "",
     previewText: "",
-    previewBoldText: "",
+    previewBoldText: "I will",
     previewBackground: "",
     selectedPreview: "image",
     reset: true
@@ -217,10 +213,6 @@ export const doResetChanges = () => (dispatch) => {
       reset: false
     }))
   }, 100)
-}
-
-export const doShareImage = () => (dispatch) => {
-  return dispatch(shareImage())
 }
 
 export const doDownloadImage = (selectedPreview) => dispatch => {
@@ -235,6 +227,9 @@ export const doDownloadImage = (selectedPreview) => dispatch => {
     link.href = dataUrl;
     link.click();
     dispatch(uploadImageStart())
+    
+    analytics.logEvent("download_image", { name: "User download" })
+
     let url = "/.netlify/functions/upload"
     
     return fetch(url, {
@@ -245,10 +240,13 @@ export const doDownloadImage = (selectedPreview) => dispatch => {
     })
     .then(response => response.json())
     .then(response => {
+
+      analytics.logEvent("cloudinary_upload_complete", { name: "Picture upload" })
       dispatch(uploadImageSuccess())
     })
     .catch(() => { 
       dispatch(uploadImageFailure())
+      analytics.logEvent("cloudinary_upload_fail", { name: "Picture upload failed" })
       setErrorMessage("There was an error uploading the image, Please try again")
     })
   })
@@ -266,6 +264,5 @@ export default {
   doSetActivePreview,
   doSetPreviewMode,
   doResetChanges,
-  doShareImage,
   doDownloadImage
 }
