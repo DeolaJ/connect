@@ -28,8 +28,7 @@ const PreviewContainer = (props) => {
     setAllowPreview])
 
   const resizeContainers = () => {
-    const width = (document.getElementById("image-preview") && document.getElementById("image-preview").clientWidth) || 
-      document.getElementById("color-preview").clientWidth
+    const width = document.getElementById("image-preview") && document.getElementById("image-preview").clientWidth
     setContainerWidth(width)
   }
 
