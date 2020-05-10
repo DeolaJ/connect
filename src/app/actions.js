@@ -1,4 +1,4 @@
-import { analytics } from './../firebase'
+import firebase from './../firebase'
 import domtoimage from 'dom-to-image'
 
 export const RESET_PROGRESS = "RESET_PROGRESS"
@@ -24,6 +24,8 @@ export const ERROR_HIDE = "ERROR_HIDE"
 
 export const RESET_CHANGES = "RESET_CHANGES"
 export const RETURN_RESET = "RETURN_RESET"
+
+const analytics = firebase.analytics()
 
 const resetProgress = (payload) => ({
   type: RESET_PROGRESS,
@@ -191,14 +193,14 @@ export const doSetActivePreview = (selectedPreview) => (dispatch) => {
 }
 
 export const doSetPreviewMode = (previewMode) => (dispatch) => {
-  analytics.logEvent("continue_to_preview", { name: "User clicked Continue" })
+  analytics.logEvent("continue_to_preview")
   return dispatch(setPreviewMode({
     previewMode
   }))
 }
 
 export const doResetChanges = () => (dispatch) => {
-  analytics.logEvent("restart_editing", { name: "User restarted creation" })
+  analytics.logEvent("restart_editing")
   dispatch(resetChanges({
     previewMode: false,
     imageUrl: "",
@@ -228,7 +230,7 @@ export const doDownloadImage = (selectedPreview) => dispatch => {
     link.click();
     dispatch(uploadImageStart())
     
-    analytics.logEvent("download_image", { name: "User download" })
+    analytics.logEvent("download_image")
 
     let url = "/.netlify/functions/upload"
     
@@ -241,12 +243,12 @@ export const doDownloadImage = (selectedPreview) => dispatch => {
     .then(response => response.json())
     .then(response => {
 
-      analytics.logEvent("cloudinary_upload_complete", { name: "Picture upload" })
+      analytics.logEvent("cloudinary_upload_complete")
       dispatch(uploadImageSuccess())
     })
     .catch(() => { 
       dispatch(uploadImageFailure())
-      analytics.logEvent("cloudinary_upload_fail", { name: "Picture upload failed" })
+      analytics.logEvent("cloudinary_upload_fail")
       setErrorMessage("There was an error uploading the image, Please try again")
     })
   })

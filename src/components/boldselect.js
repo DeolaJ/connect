@@ -51,20 +51,7 @@ const BoldSelect = (props) => {
             </option>
           ))
         }
-        {/* <option>Other</option> */}
       </select>
-
-      {/* {
-        boldText === "Other" &&
-        <input 
-          type="text" 
-          value={boldText}
-          placeholder={"Enter desired action"}
-          className={"other-bold-input"} 
-          onChange={e => setBoldText(e.target.value)} 
-          onBlur={e => setBoldText(e.target.value)}
-        />
-      } */}
     </label>
   )
 }

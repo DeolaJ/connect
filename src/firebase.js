@@ -4,6 +4,7 @@ import '@firebase/analytics';
 let config = JSON.parse(process.env.REACT_APP_FIREBASE_CONFIG)
 const connectFirebase = firebase.initializeApp(config)
 
-export const analytics = connectFirebase.analytics();
+connectFirebase.analytics();
+connectFirebase.analytics().logEvent('notification_received');
 
 export default connectFirebase
