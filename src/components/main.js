@@ -56,6 +56,7 @@ class Main extends Component {
                   />
                   <ImageUploader 
                     doUploadImage={doUploadImage}
+                    previewBackground={previewBackground}
                     errorMessage={errorMessage}
                     progressValue={progressValue}
                     doSetImage={doSetImage}

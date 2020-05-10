@@ -34,13 +34,13 @@ const BoldSelect = (props) => {
 
   return (
     <label>
+      Select action
       <select
         value={boldText}
         onChange={e => setBoldText(e.target.value)} 
         onBlur={e => setBoldText(e.target.value)}
         className={"main-select main-button"}
       >
-        <option value={""}>Select action</option>
         {
           boldTextOptions.map(option => (
             <option 
