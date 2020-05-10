@@ -66,6 +66,13 @@
         flex-basis: 85%;
       }
     }
+
+    @media (max-width: 450px) {
+
+      > div {
+        flex-basis: 100%;
+      }
+    }
   }
 
   .sample-list {
@@ -145,6 +152,22 @@
         font-size: .9vw;
       }
     }
+
+    @media (max-width: 450px) {
+
+      .bold-text {
+        font-size: 3.1vw;
+        margin: 0 3vw;
+        border-radius: 0.9vw;
+        line-height: 5vw;
+      }
+
+      .body-text {
+        padding: 1.6vw 1.7vw 1vw;
+        line-height: 4vw;
+        font-size: 2.6vw;
+      }
+    }
   }
 
   .image-footer {
@@ -186,6 +209,18 @@
       p {
         font-size: 1.8vw;
         line-height: 4.2vw;
+      }
+    }
+
+    @media (max-width: 450px) {
+
+      img {
+        width: 8%;
+      }
+
+      p {
+        font-size: 2.3vw;
+        line-height: 5.2vw;
       }
     }
   }
@@ -241,7 +276,7 @@
         font-size: 2.3vw;
         text-align: center;
         line-height: 200%;
-        margin-bottom: 1%;
+        margin-bottom: 2px;
       }
 
       img {
@@ -262,8 +297,7 @@
       }
     }
 
-    .image-preview.final,
-    .color-preview.final {
+    .image-preview.final {
 
       .text-container {
         padding: 0 22%;

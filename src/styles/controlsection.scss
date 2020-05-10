@@ -14,7 +14,6 @@
 
   .terms-section {
     margin-bottom: 4rem;
-    padding-top: 2rem;
 
     .ui.checkbox {
       font-size: .93rem;
@@ -23,7 +22,6 @@
     @media (max-width: 500px) {
 
       margin-bottom: 2rem;
-      padding-top: 0rem;
       
       h3 {
         font-size: 1rem;
@@ -97,6 +95,17 @@
         float: right;
         margin-top: 1rem;
       }
+
+      @media (max-width: 768px) {
+
+        text-align: left;
+        margin: 1.5rem 0;
+
+        .main-button {
+          float: none;
+          margin-top: 1rem;
+        }
+      }
     }
 
     .message-text {
@@ -115,8 +124,6 @@
     }
 
     @media (min-width: 768px) {
-
-      text-align: right;
 
       &.centered {
         text-align: center;

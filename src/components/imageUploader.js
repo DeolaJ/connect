@@ -10,7 +10,8 @@ class ImageUploader extends Component {
     doUploadImage: PropTypes.func.isRequired,
     errorMessage: PropTypes.string,
     progressValue: PropTypes.number,
-    doSetImage: PropTypes.func.isRequired
+    doSetImage: PropTypes.func.isRequired,
+    previewBackground: PropTypes.string.isRequired
   }
 
   state = {
@@ -36,7 +37,7 @@ class ImageUploader extends Component {
   }
 
   render () {
-    const { errorMessage } = this.props
+    const { errorMessage, previewBackground } = this.props
     const { filename } = this.state
 
     return (
@@ -52,7 +53,7 @@ class ImageUploader extends Component {
           className={"file-upload-input"}
           onChange={e => this.handleFiles(e.target.files[0])}
         />
-        <label htmlFor="fileElem" arial-label="Click to upload image" className={"main-button bold"} id="upload-label">
+        <label htmlFor="fileElem" arial-label="Click to upload image" className={"main-button bold"} disabled={previewBackground.length} id="upload-label">
           Upload Image
         </label>
 
