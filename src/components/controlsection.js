@@ -4,9 +4,10 @@ import "semantic-ui-css/components/checkbox.min.css";
 import '../styles/controlsection.scss'
 import { ReactComponent as Twitter } from '../images/twitter.svg'
 import { ReactComponent as Facebook } from '../images/facebook.svg'
-import { analytics } from '../firebase'
+import firebase from '../firebase'
 
 const ControlSection = (props) => {
+  const analytics = firebase.analytics()
   const [checked, setChecked] = useState({
     checkOne: false
   })
@@ -34,7 +35,7 @@ const ControlSection = (props) => {
   const quote = `Post COVID-19, ${previewBoldText} ${previewText}`
 
   const copyFunction = () => {
-    analytics.logEvent("copy_message", { name: "User copied message" })
+    analytics.logEvent("copy_message")
     let copyText = document.querySelector(".message-text");
     var textArea = document.createElement("textarea");
     textArea.value = copyText.textContent;
@@ -113,7 +114,7 @@ const ControlSection = (props) => {
                     className={"share-button main-button"} 
                     style={{ marginRight: "1.5rem" }} 
                     onClick={() => {
-                      analytics.logEvent("twitter_share", { name: "Shared to Twitter" })
+                      analytics.logEvent("twitter_share")
                     }}
                   >
                     <span><Twitter /></span>
@@ -125,7 +126,7 @@ const ControlSection = (props) => {
                   <button 
                     className={"share-button main-button"}
                     onClick={() => {
-                      analytics.logEvent("facebook_share", { name: "Shared to Facebook" })
+                      analytics.logEvent("facebook_share")
                     }}
                   >
                     <span><Facebook /></span>

@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import { Responsive } from 'semantic-ui-react'
-import sample1 from '../images/1.jpg'
-import sample2 from '../images/2.jpg'
 import '../styles/previewContainer.scss'
 import logo from '../images/crest_logo.png'
 import logoMed from '../images/crest_logo_med.png'
@@ -15,17 +13,6 @@ const PreviewContainer = (props) => {
   } = props
 
   const [ containerWidth, setContainerWidth ] = useState(0)
-  const [ allowPreview, setAllowPreview ] = useState(false)
-
-  useEffect(() => {
-    if (
-      previewBackground.length || imageUrl.length || 
-      previewText.length
-    ) {
-      setAllowPreview(true)
-    }
-  }, [previewBackground, imageUrl, previewText, 
-    setAllowPreview])
 
   const resizeContainers = () => {
     const width = document.getElementById("image-preview") && document.getElementById("image-preview").clientWidth
@@ -33,40 +20,18 @@ const PreviewContainer = (props) => {
   }
 
   useLayoutEffect(() => {
-    if (allowPreview) {
-      resizeContainers()
-      window.addEventListener("resize", resizeContainers)
-    } else {
-      window.removeEventListener("resize", resizeContainers)
-    }
-  }, [allowPreview, previewMode])
+    resizeContainers()
+    window.addEventListener("resize", resizeContainers)
+  }, [previewMode])
 
   return (
     <div 
       className={!previewMode ? "editing-preview preview-container" : "preview-container"} 
     >
       {
-        !allowPreview &&
-
-        <div className={"samples"}>
-          <h4>Sample Final Uploads</h4>
-
-          <div className={"sample-list"}>
-            <div>
-              <img src={sample1} alt="Sample upload 1"/>
-            </div>
-            <div>
-              <img src={sample2} alt="Sample upload 2"/>
-            </div>
-          </div>
-        </div>
-      }
-
-      {
-        !previewMode && allowPreview &&
+        !previewMode &&
 
         <>
-          {/* <h4>Click an option below to select your preferred type</h4> */}
           <div className={"menu-list"} role="menu">
             <div 
               className={previewBackground.length ? `image-preview preview ${previewBackground}` : `image-preview preview`} 
@@ -109,7 +74,7 @@ const PreviewContainer = (props) => {
       }
 
       {
-        previewMode && allowPreview &&
+        previewMode &&
 
         <>
           <div>

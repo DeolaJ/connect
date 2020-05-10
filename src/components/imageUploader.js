@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import '../styles/imageUploader.scss';
 import "semantic-ui-css/components/progress.min.css";
-import { analytics } from '../firebase'
+import firebase from '../firebase'
 
+const analytics = firebase.analytics()
 class ImageUploader extends Component {
   static propTypes = {
     doUploadImage: PropTypes.func.isRequired,
@@ -31,7 +32,7 @@ class ImageUploader extends Component {
 
   handleFiles = (file) => {
     this.previewFile(file)
-    analytics.logEvent("upload_image", { name: "User uploaded image" })
+    analytics.logEvent("upload_image")
   }
 
   render () {
