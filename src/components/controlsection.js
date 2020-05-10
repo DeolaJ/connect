@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Checkbox } from 'semantic-ui-react';
 import "semantic-ui-css/components/checkbox.min.css";
 import '../styles/controlsection.scss'
+import { ReactComponent as Twitter } from '../images/twitter.svg'
+import { ReactComponent as Facebook } from '../images/facebook.svg'
+import { analytics } from '../firebase'
 
 const ControlSection = (props) => {
   const [checked, setChecked] = useState({
-    checkOne: false,
-    checkTwo: false
+    checkOne: false
   })
   const [allowProgress, setAllowProgress] = useState(false)
-  const { doSetPreviewMode, previewMode, doShareImage, 
+  const { doSetPreviewMode, previewMode, 
     doDownloadImage, doResetChanges , imageUrl, previewBackground,
     previewBoldText, previewText, selectedPreview
   } = props
@@ -17,43 +19,50 @@ const ControlSection = (props) => {
     if (
       (previewBackground.length || imageUrl.length) 
       && previewBoldText && previewText 
-      && checked.checkOne && checked.checkTwo
+      && checked.checkOne
     ) {
       setAllowProgress(true)
     }
   }, [previewBackground, imageUrl, previewText, 
     previewBoldText, setAllowProgress, checked])
+  
+  const url = "https://postcovid19.netlify.app"
+  const hashtags = "BetterAndStronger"
+  const hashtag = "%23BetterAndStronger"
+  // Change to the handle of Connect Marketing
+  const related = "deo_joe"
+  const quote = `Post COVID-19, ${previewBoldText} ${previewText}`
 
+  const copyFunction = () => {
+    analytics.logEvent("copy_message", { name: "User copied message" })
+    let copyText = document.querySelector(".message-text");
+    var textArea = document.createElement("textarea");
+    textArea.value = copyText.textContent;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("Copy");
+    textArea.remove();
+  }
+  
   return (
     <div className={"control-section"}>
       {
         !previewMode &&
 
-        <div>
+        <div className={"terms-section"}>
           <h3>
-            Tick boxes below to Agree to terms &amp; conditions
+            Tick the box to Agree to our Terms &amp; Conditions
           </h3>
 
           <Checkbox
-            label={<label htmlFor="checkbox-one">Allow my content to be used as part of the #better&amp;stronger campaign by <a href="https://connectmarketingonline.com" rel="noopener noreferrer" target={"_blank"}>connectmarketingonline.com</a></label>}
+            label={<label htmlFor="checkbox-one">Allow my content to be used as part of the #BetterAndStronger campaign by <a href="https://connectmarketingonline.com" rel="noopener noreferrer" target={"_blank"}>connectmarketingonline.com</a></label>}
             onChange={e => {
               setChecked(prevState => ({
-                ...prevState, checkOne: !prevState.checkOne
+                checkOne: !prevState.checkOne
               }))
             }}
             id={"checkbox-one"}
             checked={checked.checkOne}
-          />
-
-          <Checkbox
-            label={<label htmlFor="checkbox-two">Allow my data to be used for targeted marketing (Social media sponsored posts)</label>}
-            onChange={e => {
-              setChecked(prevState => ({
-                ...prevState, checkTwo: !prevState.checkTwo
-              }))
-            }}
-            id={"checkbox-two"}
-            checked={checked.checkTwo}
           />
         </div>
       }
@@ -88,13 +97,7 @@ const ControlSection = (props) => {
               className={"reset-button main-button"} 
               onClick={doResetChanges}
             >
-              Start over
-            </button>
-            <button 
-              className={"share-button main-button"} 
-              onClick={doShareImage}
-            >
-              Share
+              Restart
             </button>
             <button 
               className={"download-button main-button"} 
@@ -102,15 +105,49 @@ const ControlSection = (props) => {
             >
               Download
             </button>
+
+            <div className={"message-container"}>
+              <div className={"share-container"}>
+                <a href={`https://twitter.com/intent/tweet?text=${quote}&url=${url}&hashtags=${hashtags}`} rel="noreferrer noopener" target={"_blank"}>
+                  <button 
+                    className={"share-button main-button"} 
+                    style={{ marginRight: "1.5rem" }} 
+                    onClick={() => {
+                      analytics.logEvent("twitter_share", { name: "Shared to Twitter" })
+                    }}
+                  >
+                    <span><Twitter /></span>
+                    <span>Share message</span>
+                  </button>
+                </a>
+
+                <a href={`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}&hashtag=${hashtag}`} rel="noreferrer noopener" target={"_blank"}>
+                  <button 
+                    className={"share-button main-button"}
+                    onClick={() => {
+                      analytics.logEvent("facebook_share", { name: "Shared to Facebook" })
+                    }}
+                  >
+                    <span><Facebook /></span>
+                    <span>Share message</span>
+                  </button>
+                </a>
+              </div>
+
+              <div className={"copy-container"}>
+                <code className={"message-text"}>
+                  {quote}{" "}
+                  <br/>
+                  <span>#{hashtags}{" "}{url}</span>
+                </code>
+                <button className={"main-button"} onClick={copyFunction}>
+                  Copy
+                </button>
+              </div>
+            </div>
           </>
         }
         
-        {
-          previewMode &&
-          <div>
-            <button className={"back-button main-button"} onClick={e => doSetPreviewMode(false)}><span>&#60;</span> Back</button>
-          </div>
-        }
       </div>
       
     </div>

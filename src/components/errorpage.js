@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import '../styles/errorpage.scss'
+import { analytics } from '../firebase'
 
 const ErrorPage = (props) => {
 
+  analytics.logEvent("error_view", { message: "User got lost" })
   return (
     <div className={"error-container"}>
       <h1>

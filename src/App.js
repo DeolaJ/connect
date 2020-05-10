@@ -5,8 +5,11 @@ import AdminView from './components/adminview'
 import Layout from './components/layout'
 import ErrorPage from './components/errorpage'
 import Footer from './components/footer'
+import { analytics } from './firebase'
 
 const App = () => {
+
+  analytics.logEvent("page_view", { name: "visit" })
 
   return (
     <div>

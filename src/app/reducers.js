@@ -13,7 +13,6 @@ import {
   SET_ACTIVE_PREVIEW,
   SET_PREVIEW_MODE,
   RESET_CHANGES,
-  SHARE_IMAGE,
   RETURN_RESET
 } from "./actions"
   
@@ -133,13 +132,6 @@ export default function appReducers (state=defaultState, action) {
     }
 
     case RETURN_RESET: {
-      return {
-        ...state,
-        ...payload
-      }
-    }
-
-    case SHARE_IMAGE: {
       return {
         ...state,
         ...payload
