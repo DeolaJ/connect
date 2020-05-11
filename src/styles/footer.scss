@@ -7,7 +7,34 @@
     justify-content: center;
   }
 
-  p {
+  svg {
+    width: 21px;
+    fill: white;
+    opacity: .8;
+    height: 24px;
+  }
+
+  .social-icons {
+    margin-top: 1.3rem;
+
+    a,
+    p {
+      padding: 0 .6rem;
+    }
+
+    p {
+      color: rgba(255, 255, 255, .8);
+      margin: 0;
+      margin-bottom: .5rem;
+      font-size: .85rem;
+    }
+
+    a:hover svg {
+      opacity: 1;
+    }
+  }
+
+  .powered-text {
     margin: 0;
     padding: 0 .5rem;
     margin-top: .8rem;

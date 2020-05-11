@@ -185,8 +185,8 @@
       margin: 0;
       font-size: .9vw;
       text-align: center;
-      line-height: 1.9vw;
-      margin-bottom: 2px;
+      line-height: 1;
+      margin-bottom: 0;
     }
 
     span {
@@ -208,7 +208,6 @@
 
       p {
         font-size: 1.8vw;
-        line-height: 4.2vw;
       }
     }
 
@@ -220,7 +219,6 @@
 
       p {
         font-size: 2.3vw;
-        line-height: 5.2vw;
       }
     }
   }
@@ -275,8 +273,7 @@
         margin: 0;
         font-size: 2.3vw;
         text-align: center;
-        line-height: 200%;
-        margin-bottom: 2px;
+        line-height: 1;
       }
 
       img {
