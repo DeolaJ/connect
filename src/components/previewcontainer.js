@@ -65,7 +65,7 @@ const PreviewContainer = (props) => {
               <div className="image-footer">
                 <img src={logo} alt="connect marketing logo" />
                 <p>
-                  #Better<span>AndStronger</span>
+                  #betterandstronger
                 </p>
               </div>
             </div>
@@ -112,7 +112,7 @@ const PreviewContainer = (props) => {
               <div className="image-footer">
                 <img src={logo} alt="connect marketing logo" />
                 <p>
-                  #Better<span>AndStronger</span>
+                  #betterandstronger
                 </p>
               </div>
             </div>
@@ -139,7 +139,7 @@ const PreviewContainer = (props) => {
               <div className="image-footer">
                 <img src={logoMed} alt="connect marketing logo" />
                 <p>
-                  #Better<span>AndStronger</span>
+                  #betterandstronger
                 </p>
               </div>
             </div>

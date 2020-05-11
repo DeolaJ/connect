@@ -27,9 +27,9 @@ const ControlSection = (props) => {
   }, [previewBackground, imageUrl, previewText, 
     previewBoldText, setAllowProgress, checked])
   
-  const url = "https://postcovid19.netlify.app"
-  const hashtags = "BetterAndStronger"
-  const hashtag = "%23BetterAndStronger"
+  const url = "https://betterandstronger.netlify.app"
+  const hashtags = ["betterandstronger", "connectmarketingservices"]
+  const hashtag = "%23betterandstronger"
   // Change to the handle of Connect Marketing
   const related = "deo_joe"
   const quote = `Post COVID-19, ${previewBoldText} ${previewText}`
@@ -109,7 +109,7 @@ const ControlSection = (props) => {
 
             <div className={"message-container"}>
               <div className={"share-container"}>
-                <a href={`https://twitter.com/intent/tweet?text=${quote}&url=${url}&hashtags=${hashtags}`} rel="noreferrer noopener" target={"_blank"}>
+                <a href={`https://twitter.com/intent/tweet?text=${quote}&url=${url}&hashtags=${hashtags.join(",")}`} rel="noreferrer noopener" target={"_blank"}>
                   <button 
                     className={"share-button main-button"} 
                     style={{ marginRight: "1.5rem" }} 
@@ -139,7 +139,7 @@ const ControlSection = (props) => {
                 <code className={"message-text"}>
                   {quote}{" "}
                   <br/>
-                  <span>#{hashtags}{" "}{url}</span>
+                  <span>#{hashtags.join(" #")}{" "}{url}</span>
                 </code>
                 <button className={"main-button"} onClick={copyFunction}>
                   Copy
