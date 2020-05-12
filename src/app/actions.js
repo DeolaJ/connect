@@ -1,5 +1,6 @@
 import firebase from './../firebase'
 import domtoimage from 'dom-to-image'
+import html2canvas from 'html2canvas'
 
 export const RESET_PROGRESS = "RESET_PROGRESS"
 
@@ -217,43 +218,60 @@ export const doResetChanges = () => (dispatch) => {
   }, 100)
 }
 
-export const doDownloadImage = (selectedPreview) => dispatch => {
+export const doDownloadImage = (selectedPreview) => async dispatch => {
   dispatch(downloadResultStart())
 
-  const node = document.querySelector(`.${selectedPreview}-preview.final`)
-  domtoimage.toPng(node)
-  .then (function (dataUrl) {
-    var link = document.createElement('a');
-    link.setAttribute('crossOrigin', 'anonymous')
-    link.download = 'p-covid.png';
-    link.href = dataUrl;
-    link.click();
-    dispatch(uploadImageStart())
-    
-    analytics.logEvent("download_image")
+  let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
+  || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
 
-    let url = "/.netlify/functions/upload"
-    
-    return fetch(url, {
-      method: 'POST',
-      body: JSON.stringify({
-        dataUrl: dataUrl
-      })
+  let imageURI;
+  if (isIOS) {
+    analytics.logEvent("download_image_IOS")    
+    let me = await window.scrollTo(0,0);
+    setTimeout(() => {
+      html2canvas(document.querySelector(".image-preview.final")).then(canvas => {
+        const dataUrl = canvas.toDataURL()
+        imageURI = dataUrl
+        var link = document.createElement('a');
+        link.setAttribute('crossOrigin', 'anonymous')
+        link.download = 'p-covid.png';
+        link.href = dataUrl;
+        link.click();
+      });
+    }, 1000)
+  } else {
+    const node = document.querySelector(`.${selectedPreview}-preview.final`)
+    domtoimage.toPng(node)
+    .then (function (dataUrl) {
+      imageURI = dataUrl
+      var link = document.createElement('a');
+      link.setAttribute('crossOrigin', 'anonymous')
+      link.download = 'p-covid.png';
+      link.href = dataUrl;
+      link.click();
     })
-    .then(response => response.json())
-    .then(response => {
+  }
+  dispatch(uploadImageStart())
+  
+  analytics.logEvent("download_image")
 
-      analytics.logEvent("cloudinary_upload_complete")
-      dispatch(uploadImageSuccess())
-    })
-    .catch(() => { 
-      dispatch(uploadImageFailure())
-      analytics.logEvent("cloudinary_upload_fail")
-      setErrorMessage("There was an error uploading the image, Please try again")
+  let url = "/.netlify/functions/upload"
+  
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      dataUrl: imageURI
     })
   })
-  .catch(function (error) {
-    console.error('oops, something went wrong!', error);
+  .then(response => response.json())
+  .then(response => {
+    analytics.logEvent("cloudinary_upload_complete")
+    dispatch(uploadImageSuccess())
+  })
+  .catch(() => { 
+    dispatch(uploadImageFailure())
+    analytics.logEvent("cloudinary_upload_fail")
+    setErrorMessage("There was an error uploading the image, Please try again")
   })
 }
 
