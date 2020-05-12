@@ -87,7 +87,8 @@ const PreviewContainer = (props) => {
               className={previewBackground.length ? `image-preview preview ${previewBackground}` : `image-preview preview`}
               style={{ 
                 backgroundImage: !previewBackground.length ? `url(${imageUrl})` : null,
-                height: `${containerWidth}px`
+                height: `${containerWidth}px`,
+                width: containerWidth === 0 ? null : `${containerWidth}px`
               }}
               id={"image-preview"}
             >
