@@ -143,10 +143,10 @@ export const doUploadImage = (dataUrl, checked) => dispatch => {
   .then(response => response.json())
   .then(response => {
     analytics.logEvent("cloudinary_upload_complete")
-    console.log(response)
+    const data = JSON.parse(response.body)
     // Update the Cloudinary upload url
     dispatch(uploadImageSuccess({
-      uploadUrl: response.secure_url ? response.secure_url : "",
+      uploadUrl: data.secure_url ? data.secure_url : "",
       uploading: false
     }))
   })
