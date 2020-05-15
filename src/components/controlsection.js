@@ -30,7 +30,7 @@ const ControlSection = (props) => {
   }, [previewBackground, imageUrl, previewText, 
     previewBoldText, setAllowProgress, checked])
   
-  const url = "https://betterandstronger.web.app"
+  const url = "https://betterandstronger.netlify.app"
   const hashtags = ["betterandstronger", "connectmarketingservices"]
   const hashtag = "%23betterandstronger"
   const quote = `Post COVID-19, ${previewBoldText} ${previewText}`
