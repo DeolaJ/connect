@@ -15,6 +15,7 @@ const TextSelect = (props) => {
         value={bodyText}
         placeholder={"Enter desired message"}
         className={"other-body-input"} 
+        // Set a limit of 50 characters to the Text field
         onChange={e => {
           if (bodyText.length <= 50) {
             setBodyText(e.target.value)

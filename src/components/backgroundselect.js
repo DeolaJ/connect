@@ -5,6 +5,7 @@ const BackgroundSelect = (props) => {
   const { doSetPreviewBackground, previewBackground } = props
   const [ backgroundText, setBackgroundText ] = useState(previewBackground)
 
+  // Update the preview background color
   useEffect(() => {
     doSetPreviewBackground(backgroundText)
   }, [backgroundText, setBackgroundText, doSetPreviewBackground])
@@ -101,18 +102,6 @@ const BackgroundSelect = (props) => {
           ))
         }
       </div>
-      {/* <br/>
-      <label>
-        Set custom background color
-        <input 
-          type="text" 
-          value={backgroundText}
-          placeholder={"#000000"}
-          className={"other-body-input"} 
-          onChange={e => setBackgroundText(e.target.value)} 
-          onBlur={e => setBackgroundText(e.target.value)}
-        />
-      </label> */}
     </div>
   )
 }

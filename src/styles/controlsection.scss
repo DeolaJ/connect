@@ -10,6 +10,7 @@
   a {
     color: white;
     font-weight: 700;
+    text-decoration: none;
   }
 
   .terms-section {
@@ -47,6 +48,18 @@
       }
     }
 
+    .main-button.download-button {
+
+      svg {
+        height: initial;
+        display: inline-block !important;
+      }
+
+      span {
+        margin: 0;
+      }
+    }
+
     .reset-button {
       margin-right: 1.5rem;
     }
@@ -74,7 +87,8 @@
       }
     }
 
-    .share-button {
+    .share-button, 
+    .download-button {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -82,8 +96,8 @@
 
     svg {
       width: 14px;
-      margin-bottom: -2px;
-      margin-right: .6rem;
+      margin-bottom: -2px !important;
+      margin-right: .6rem !important;
       fill: white;
     }
 

@@ -28,11 +28,6 @@ export const RETURN_RESET = "RETURN_RESET"
 
 const analytics = firebase.analytics()
 
-const resetProgress = (payload) => ({
-  type: RESET_PROGRESS,
-  payload
-})
-
 const setImage = (payload) => ({
   type: SET_IMAGE,
   payload
@@ -124,42 +119,45 @@ export const dataURItoBlob = (dataURI) => {
 }
 
 export const setErrorMessage = (errorMessage) => dispatch => {
-  dispatch(errorNotify(errorMessage))
+  // Set Error message
+  dispatch(errorNotify({
+    errorMessage
+  }))
+  // Remove Error message after 3500ms
   setTimeout(() => {
     dispatch(errorHide({
       errorMessage: ""
     }))
-  }, 2500)
+  }, 3500)
 }
 
-export const doUploadImage = (file) => dispatch => {
-  dispatch(uploadImageStart({
-    progressValue: 0
-  }))
+export const doUploadImage = (dataUrl, checked) => dispatch => {
   let url = "/.netlify/functions/upload"
-  var formData = new FormData()
-
-  formData.append('file', file)
-  formData.append('filename', file.name)
-  
   return fetch(url, {
     method: 'POST',
-    body: formData
+    body: JSON.stringify({
+      dataUrl: dataUrl,
+      checked: checked
+    })
   })
+  .then(response => response.json())
   .then(response => {
+    analytics.logEvent("cloudinary_upload_complete")
     console.log(response)
+    // Update the Cloudinary upload url
     dispatch(uploadImageSuccess({
-      progressValue: 100,
+      uploadUrl: response.secure_url ? response.secure_url : "",
+      uploading: false
     }))
-    setTimeout(() => {
-      dispatch(resetProgress({
-        progressValue: null
-      }))
-    }, 2000)
   })
-  .catch(() => { 
-    dispatch(uploadImageFailure())
-    setErrorMessage("There was an error uploading the image, Please try again")
+  .catch((error) => { 
+    // Set any error message
+    dispatch(uploadImageFailure({
+      uploading: false
+    }))
+    console.log(error)
+    analytics.logEvent("cloudinary_upload_fail")
+    dispatch(setErrorMessage("There was an error generating the Image, Please try again"))
   })
 }
 
@@ -194,13 +192,23 @@ export const doSetActivePreview = (selectedPreview) => (dispatch) => {
 }
 
 export const doSetPreviewMode = (previewMode) => (dispatch) => {
+  // Change Preview view from either Editing to Viewing the final product or the inverse
   analytics.logEvent("continue_to_preview")
-  return dispatch(setPreviewMode({
-    previewMode
-  }))
+  if (previewMode) {
+    return dispatch(setPreviewMode({
+      previewMode
+    }))
+  } else {
+    return dispatch(setPreviewMode({
+      previewMode,
+      uploadUrl: "",
+      generalUrl: ""
+    }))
+  }
 }
 
 export const doResetChanges = () => (dispatch) => {
+  // Restart or Reset the Application State for user to start again
   analytics.logEvent("restart_editing")
   dispatch(resetChanges({
     previewMode: false,
@@ -209,7 +217,9 @@ export const doResetChanges = () => (dispatch) => {
     previewBoldText: "I will",
     previewBackground: "",
     selectedPreview: "image",
-    reset: true
+    reset: true,
+    uploadUrl: "",
+    generalUrl: ""
   }))
   setTimeout(() => {
     dispatch(returnReset({
@@ -218,61 +228,61 @@ export const doResetChanges = () => (dispatch) => {
   }, 100)
 }
 
-export const doDownloadImage = (selectedPreview) => async dispatch => {
-  dispatch(downloadResultStart())
-
+export const doDownloadImage = (checked) => async dispatch => {
+  // Checks if the User's devices is IOS
   let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
   || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
 
-  let imageURI;
-  if (isIOS) {
-    analytics.logEvent("download_image_IOS")    
-    let me = await window.scrollTo(0,0);
+  // Reset Url parameters
+  dispatch(downloadResultStart({
+    isIOS: isIOS,
+    generalUrl: "",
+    uploadUrl: ""
+  }))
+
+  // Start the upload process
+  dispatch(uploadImageStart({
+    uploading: true
+  }))
+  if (isIOS) {   
+    // Hhtml2canvas library was used for IOS devices because of some bugs related to Dom2image
     setTimeout(() => {
-      html2canvas(document.querySelector(".image-preview.final")).then(canvas => {
-        const dataUrl = canvas.toDataURL()
-        imageURI = dataUrl
-        var link = document.createElement('a');
-        link.setAttribute('crossOrigin', 'anonymous')
-        link.download = 'p-covid.png';
-        link.href = dataUrl;
-        link.click();
-      });
-    }, 1000)
+      html2canvas(document.querySelector(".image-preview.final"), {allowTaint: true, logging: true})
+      .then(canvas => {
+        analytics.logEvent("download_image_IOS") 
+        const dataUrl = canvas.toDataURL("image/png", 1)
+
+        dispatch(downloadResultSuccess())
+        return dataUrl
+      })
+      .then(dataUrl => {
+        dispatch(doUploadImage(dataUrl, checked))
+      })
+      .catch(error => {
+        dispatch(downloadResultFailure())
+        console.log(error)
+      })
+    }, 500)
   } else {
-    const node = document.querySelector(`.${selectedPreview}-preview.final`)
+    // For non IOS devices
+    const node = document.querySelector(".image-preview.final")
     domtoimage.toPng(node)
     .then (function (dataUrl) {
-      imageURI = dataUrl
-      var link = document.createElement('a');
-      link.setAttribute('crossOrigin', 'anonymous')
-      link.download = 'p-covid.png';
-      link.href = dataUrl;
-      link.click();
+      analytics.logEvent("download_image")
+
+      dispatch(downloadResultSuccess())
+      return dataUrl
+    })
+    .then(dataUrl => {
+      console.log(checked)
+      dispatch(doUploadImage(dataUrl, checked))
+    })
+    .catch(error => {
+      dispatch(downloadResultFailure())
+      dispatch(setErrorMessage("There was an error downloading the Image, Please try again"))
+      console.log(error)
     })
   }
-  dispatch(uploadImageStart())
-  
-  analytics.logEvent("download_image")
-
-  let url = "/.netlify/functions/upload"
-  
-  return fetch(url, {
-    method: 'POST',
-    body: JSON.stringify({
-      dataUrl: imageURI
-    })
-  })
-  .then(response => response.json())
-  .then(response => {
-    analytics.logEvent("cloudinary_upload_complete")
-    dispatch(uploadImageSuccess())
-  })
-  .catch(() => { 
-    dispatch(uploadImageFailure())
-    analytics.logEvent("cloudinary_upload_fail")
-    setErrorMessage("There was an error uploading the image, Please try again")
-  })
 }
 
 export default {

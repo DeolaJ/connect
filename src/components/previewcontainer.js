@@ -14,16 +14,22 @@ const PreviewContainer = (props) => {
 
   const [ containerWidth, setContainerWidth ] = useState(0)
 
+  // Ensures the Preview Container image is a square at all times
   const resizeContainers = () => {
     const width = document.getElementById("image-preview") && document.getElementById("image-preview").clientWidth
     setContainerWidth(width)
   }
 
+  // Updates the Preview Container dimensions when a user clicks continue or resizes their phone
   useLayoutEffect(() => {
     resizeContainers()
     window.addEventListener("resize", resizeContainers)
   }, [previewMode])
 
+  // Variable which checks if the devices is an IOS device
+  let isIOS = /iPad|iPhone|iPod/.test(navigator.platform)
+  || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  
   return (
     <div 
       className={!previewMode ? "editing-preview preview-container" : "preview-container"} 
@@ -41,6 +47,10 @@ const PreviewContainer = (props) => {
               }}
               id={"image-preview"}
             >
+              {
+                !previewBackground.length &&
+                <div className={"overlay"}></div>
+              }
               <div className={"text-container"}>
                 <div>
                   <Responsive maxWidth={460}>
@@ -81,17 +91,20 @@ const PreviewContainer = (props) => {
             <button className={"back-button main-button"} onClick={e => doSetPreviewMode(false)}><span>&#60;</span> Back</button>
           </div>
 
-          <div className={"final-result"} style={{ height: `${containerWidth + 20}px`}}>
+          <div className={"final-result"} style={{ height: `${containerWidth + 5}px` }}>
             
             <div 
               className={previewBackground.length ? `image-preview preview ${previewBackground}` : `image-preview preview`}
               style={{ 
                 backgroundImage: !previewBackground.length ? `url(${imageUrl})` : null,
-                height: `${containerWidth}px`,
-                width: containerWidth === 0 ? null : `${containerWidth}px`
+                height: `${containerWidth}px`
               }}
               id={"image-preview"}
             >
+              {
+                !previewBackground.length &&
+                <div className={"overlay"}></div>
+              }
               <div className={"text-container"}>
                 <div>
                   <Responsive maxWidth={400}>
@@ -118,18 +131,37 @@ const PreviewContainer = (props) => {
               </div>
             </div>
 
+            {/* Actual Image which is downloaded, but is hidden from view */}
             <div 
-              className={previewBackground.length ? `${selectedPreview}-preview final ${previewBackground}` : `${selectedPreview}-preview final`}
+              className={previewBackground.length ? `${selectedPreview}-preview final ${previewBackground} ${isIOS && "ios"}` : `${selectedPreview}-preview final ${isIOS && "ios"}`}
               style={{ 
                 backgroundImage: !previewBackground.length ? `url(${imageUrl})` : null,
-                width: "1080px", 
-                height: "1080px",
+                // IOS devices use Retina display, so their image is scaled down by default here
+                width: isIOS ? "400px" : "1080px", 
+                height: isIOS ? "400px" : "1080px",
+                margin: isIOS ? "0" : null,
                 zIndex: "-2"
               }}
             >
+              {
+                !previewBackground.length &&
+                <div className={"overlay"}></div>
+              }
               <div className={"text-container"}>
                 <div> 
-                  <img src={covidLarge} alt="post covid logo"/>
+                  {/* IOS images are also smaller */}
+                  {
+                    isIOS
+
+                    ?
+
+                    <img src={covidMed} alt="post covid logo" />
+
+                    :
+
+                    <img src={covidLarge} alt="post covid logo"/>
+
+                  }
                   {
                     previewBoldText &&
                     <div className={"bold-text"}>{previewBoldText}</div>
@@ -138,7 +170,18 @@ const PreviewContainer = (props) => {
                 </div>
               </div>
               <div className="image-footer">
-                <img src={logoMed} alt="connect marketing logo" />
+                {/* IOS images are also smaller */}
+                {
+                  isIOS
+
+                  ?
+
+                  <img src={logo} alt="connect marketing logo" />
+
+                  :
+
+                  <img src={logoMed} alt="connect marketing logo" />
+                }
                 <p>
                   #betterandstronger
                 </p>

@@ -13,7 +13,9 @@ import {
   SET_ACTIVE_PREVIEW,
   SET_PREVIEW_MODE,
   RESET_CHANGES,
-  RETURN_RESET
+  RETURN_RESET,
+  ERROR_HIDE,
+  ERROR_NOTIFY
 } from "./actions"
   
 export const defaultState = {
@@ -25,7 +27,11 @@ export const defaultState = {
   previewBoldText: "I will",
   previewBackground: "",
   previewMode: false,
-  selectedPreview: "image"
+  selectedPreview: "image",
+  uploadUrl: "",
+  isIOS: false,
+  uploading: false,
+  generalUrl: ""
 }
 
 export default function appReducers (state=defaultState, action) {
@@ -132,6 +138,20 @@ export default function appReducers (state=defaultState, action) {
     }
 
     case RETURN_RESET: {
+      return {
+        ...state,
+        ...payload
+      }
+    }
+
+    case ERROR_HIDE: {
+      return {
+        ...state,
+        ...payload
+      }
+    }
+
+    case ERROR_NOTIFY: {
       return {
         ...state,
         ...payload

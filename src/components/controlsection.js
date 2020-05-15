@@ -4,6 +4,7 @@ import "semantic-ui-css/components/checkbox.min.css";
 import '../styles/controlsection.scss'
 import { ReactComponent as Twitter } from '../images/twitter.svg'
 import { ReactComponent as Facebook } from '../images/facebook.svg'
+import { ReactComponent as Loader } from '../images/loadier.svg'
 import firebase from '../firebase'
 
 const ControlSection = (props) => {
@@ -14,26 +15,27 @@ const ControlSection = (props) => {
   const [allowProgress, setAllowProgress] = useState(false)
   const { doSetPreviewMode, previewMode, 
     doDownloadImage, doResetChanges , imageUrl, previewBackground,
-    previewBoldText, previewText, selectedPreview
+    previewBoldText, previewText, selectedPreview, uploadUrl, uploading,
+    errorMessage
   } = props
+
+  // Updates the activation of the Continue button which is deactivated by default
   useEffect(() => {
     if (
       (previewBackground.length || imageUrl.length) 
-      && previewBoldText && previewText 
-      && checked.checkOne
+      && previewBoldText && previewText
     ) {
       setAllowProgress(true)
     }
   }, [previewBackground, imageUrl, previewText, 
     previewBoldText, setAllowProgress, checked])
   
-  const url = "https://betterandstronger.netlify.app"
+  const url = "https://betterandstronger.web.app"
   const hashtags = ["betterandstronger", "connectmarketingservices"]
   const hashtag = "%23betterandstronger"
-  // Change to the handle of Connect Marketing
-  const related = "deo_joe"
   const quote = `Post COVID-19, ${previewBoldText} ${previewText}`
 
+  // Allows user to copy generated message
   const copyFunction = () => {
     analytics.logEvent("copy_message")
     let copyText = document.querySelector(".message-text");
@@ -51,12 +53,8 @@ const ControlSection = (props) => {
         !previewMode &&
 
         <div className={"terms-section"}>
-          <h3>
-            Tick the box to Agree to our Terms &amp; Conditions
-          </h3>
-
           <Checkbox
-            label={<label htmlFor="checkbox-one">Allow my content to be used as part of the #BetterAndStronger campaign by <a href="https://connectmarketingonline.com" rel="noopener noreferrer" target={"_blank"}>connectmarketingonline.com</a></label>}
+            label={<label htmlFor="checkbox-one">I am interested in my content being used as part of the #betterandstronger campaign by <a href="https://connectmarketingonline.com" rel="noopener noreferrer" target={"_blank"}>Connect-Marketing</a></label>}
             onChange={e => {
               setChecked(prevState => ({
                 checkOne: !prevState.checkOne
@@ -73,7 +71,8 @@ const ControlSection = (props) => {
           !previewMode 
           
           ?
-
+          
+          // Buttons shown when a user is Editing the image
           <>
             <button 
               className={"reset-button main-button"} 
@@ -93,6 +92,7 @@ const ControlSection = (props) => {
 
           :
 
+          // Buttons shown when a user has clicked continue
           <>
             <button 
               className={"reset-button main-button"} 
@@ -100,12 +100,55 @@ const ControlSection = (props) => {
             >
               Restart
             </button>
-            <button 
-              className={"download-button main-button"} 
-              onClick={() => doDownloadImage(selectedPreview)}
-            >
-              Download
-            </button>
+
+            {
+              // This button generates the final image for the user
+              (uploadUrl.length === 0) &&
+
+              <button 
+                className={"download-button main-button"} 
+                onClick={() => doDownloadImage(checked.checkOne)}
+                style={ uploading ? { pointerEvents: "none", cursor: "not-allowed" } : null}
+              >
+                {
+                  uploading 
+                  
+                  ?
+
+                  <>
+                    <span><Loader /></span>
+                    <span>Generating...</span>
+                  </>
+
+                  :
+
+                  <>
+                    <span>Generate Image</span>
+                  </>
+                }
+              </button>
+
+            }
+
+            {
+              // This button is avaliable when the Cloudinary image link is available
+              (uploadUrl.length > 0) &&
+              <a href={uploadUrl} rel="noopener noreferrer" download="p-covid.png" target="_blank">
+                <button 
+                  className={"download-button main-button"}
+                >
+                  Click to view
+                </button>
+              </a>
+            }
+
+            {
+              // This shows errors while uploading
+              (errorMessage.length > 0) &&
+              <div style={{ margin: "1rem 0", color: "rgba(255, 255, 255, .7)" }}>
+                {errorMessage}
+              </div>
+            }
 
             <div className={"message-container"}>
               <div className={"share-container"}>
@@ -141,6 +184,7 @@ const ControlSection = (props) => {
                   <br/>
                   <span>#{hashtags.join(" #")}{" "}{url}</span>
                 </code>
+                {/* User is allowed to copy their generated message for sharing on Social media */}
                 <button className={"main-button"} onClick={copyFunction}>
                   Copy
                 </button>
