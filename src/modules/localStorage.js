@@ -18,7 +18,9 @@ export const saveInfo = (state) => {
             previewText: state.app.previewText,
             previewBoldText: state.app.previewBoldText,
             previewBackground: state.app.previewBackground,
-            selectedPreview: state.app.selectedPreview
+            selectedPreview: state.app.selectedPreview,
+            uploadUrl: state.app.uploadUrl,
+            generalUrl: state.app.generalUrl
         })
         localStorage.setItem("userInfo", serializedState)
     } catch (err) {

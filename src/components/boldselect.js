@@ -5,6 +5,7 @@ const BoldSelect = (props) => {
   const [ boldText, setBoldText ] = useState(previewBoldText)
   const { doSetPreviewBoldText } = props
 
+  // Update the Preview Action statement
   useEffect(() => {
     doSetPreviewBoldText(boldText)
   }, [boldText, setBoldText, doSetPreviewBoldText])
