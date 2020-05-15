@@ -94,6 +94,7 @@ const ControlSection = (props) => {
 
           // Buttons shown when a user has clicked continue
           <>
+            <p className={"click-message"}>Click the button below to generate &amp; view the final output</p>
             <button 
               className={"reset-button main-button"} 
               onClick={doResetChanges}
